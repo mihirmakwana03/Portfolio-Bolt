@@ -13,6 +13,11 @@ const Contact = () => {
     subject: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText('mihirpmakwana786@gmail.com');
@@ -20,9 +25,46 @@ const Contact = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/contact`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({
+          type: 'success',
+          message: data.message || 'Thank you for your message! I\'ll get back to you soon.',
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setSubmitStatus({
+          type: 'error',
+          message: data.error || 'Failed to send message. Please try again.',
+        });
+      }
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'An error occurred. Please try again later.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -242,11 +284,24 @@ const Contact = () => {
               />
             </div>
 
+            {submitStatus.type && (
+              <div
+                className={`p-4 rounded-lg ${
+                  submitStatus.type === 'success'
+                    ? 'bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]'
+                    : 'bg-red-500/10 border border-red-500/20 text-red-400'
+                }`}
+              >
+                {submitStatus.message}
+              </div>
+            )}
+
             <button
               type="submit"
-              className="w-full px-8 py-4 bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white rounded-lg font-medium hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all duration-300 flex items-center justify-center gap-2 group"
+              disabled={isSubmitting}
+              className="w-full px-8 py-4 bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white rounded-lg font-medium hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Send Message
+              {isSubmitting ? 'Sending...' : 'Send Message'}
               <Send size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </motion.form>
