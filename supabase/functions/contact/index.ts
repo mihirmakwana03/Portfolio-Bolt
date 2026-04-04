@@ -140,6 +140,114 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    try {
+      const resendApiKey = Deno.env.get("RESEND_API_KEY");
+
+      if (resendApiKey) {
+        const emailResponse = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${resendApiKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: "Portfolio Contact <onboarding@resend.dev>",
+            to: ["mihirpmakwana786@gmail.com"],
+            subject: `New Contact Form Submission: ${subject}`,
+            html: `
+              <!DOCTYPE html>
+              <html>
+                <head>
+                  <meta charset="utf-8">
+                  <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { background: linear-gradient(135deg, #6366F1 0%, #22C55E 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+                    .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
+                    .field { margin-bottom: 20px; }
+                    .label { font-weight: bold; color: #6366F1; margin-bottom: 5px; }
+                    .value { background: white; padding: 12px; border-radius: 4px; border: 1px solid #e5e7eb; }
+                    .message-box { background: white; padding: 15px; border-radius: 4px; border-left: 4px solid #6366F1; }
+                    .footer { text-align: center; margin-top: 20px; color: #6b7280; font-size: 14px; }
+                    .metadata { font-size: 12px; color: #9ca3af; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; }
+                  </style>
+                </head>
+                <body>
+                  <div class="container">
+                    <div class="header">
+                      <h1 style="margin: 0;">New Contact Form Submission</h1>
+                      <p style="margin: 5px 0 0 0; opacity: 0.9;">Someone reached out through your portfolio</p>
+                    </div>
+                    <div class="content">
+                      <div class="field">
+                        <div class="label">From:</div>
+                        <div class="value">${name}</div>
+                      </div>
+
+                      <div class="field">
+                        <div class="label">Email:</div>
+                        <div class="value"><a href="mailto:${email}" style="color: #6366F1; text-decoration: none;">${email}</a></div>
+                      </div>
+
+                      <div class="field">
+                        <div class="label">Subject:</div>
+                        <div class="value">${subject}</div>
+                      </div>
+
+                      <div class="field">
+                        <div class="label">Message:</div>
+                        <div class="message-box">${message.replace(/\n/g, '<br>')}</div>
+                      </div>
+
+                      <div class="metadata">
+                        <strong>Submission Details:</strong><br>
+                        Message ID: ${data.id}<br>
+                        Submitted: ${new Date(data.created_at).toLocaleString()}<br>
+                        IP Address: ${clientIp}<br>
+                        User Agent: ${userAgent}
+                      </div>
+                    </div>
+                    <div class="footer">
+                      <p>This message was sent from your portfolio contact form.</p>
+                      <p>Reply directly to <a href="mailto:${email}" style="color: #6366F1;">${email}</a> to respond.</p>
+                    </div>
+                  </div>
+                </body>
+              </html>
+            `,
+            text: `
+New Contact Form Submission
+
+From: ${name}
+Email: ${email}
+Subject: ${subject}
+
+Message:
+${message}
+
+---
+Submission Details:
+Message ID: ${data.id}
+Submitted: ${new Date(data.created_at).toLocaleString()}
+IP Address: ${clientIp}
+
+Reply to: ${email}
+            `,
+          }),
+        });
+
+        if (!emailResponse.ok) {
+          console.error("Failed to send email notification:", await emailResponse.text());
+        } else {
+          console.log("Email notification sent successfully");
+        }
+      } else {
+        console.log("RESEND_API_KEY not configured, skipping email notification");
+      }
+    } catch (emailError) {
+      console.error("Error sending email notification:", emailError);
+    }
+
     return new Response(
       JSON.stringify({
         success: true,
