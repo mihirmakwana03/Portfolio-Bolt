@@ -4,6 +4,10 @@ import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import GitHubActivity from './components/GitHubActivity';
+import GitHubHeatmap from './components/GitHubHeatmap';
+import Architecture from './components/Architecture';
+import Performance from './components/Performance';
+import Blog from './components/Blog';
 import Journey from './components/Journey';
 import Interests from './components/Interests';
 import Contact from './components/Contact';
@@ -18,6 +22,10 @@ function App() {
       <Skills />
       <Projects />
       <GitHubActivity />
+      <GitHubHeatmap />
+      <Architecture />
+      <Performance />
+      <Blog />
       <Journey />
       <Interests />
       <Contact />
