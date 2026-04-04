@@ -66,7 +66,7 @@ const About = () => {
                   <div className="text-8xl font-bold bg-gradient-to-r from-[#6366F1] to-[#22C55E] bg-clip-text text-transparent">
                     MM
                   </div>
-                  <p className="text-[#9CA3AF] mt-4">AI & Full Stack Developer</p>
+                  <p className="text-[#9CA3AF] mt-4">Full Stack Developer</p>
                 </div>
               </div>
             </div>
@@ -83,23 +83,26 @@ const About = () => {
             </h3>
             <div className="space-y-4 text-[#9CA3AF] leading-relaxed">
               <p>
-                I am currently pursuing an MSc in Artificial Intelligence with Professional Placement at Kingston University London.
-                My academic focus includes Machine Learning, Deep Learning, Natural Language Processing, and Computer Vision.
+                I am a Master of Computer Applications (MCA) student at ISTAR College, Anand, Gujarat,
+                with a strong academic record (CGPA: 9.27). My foundation was built during my BCA
+                at SEMCOM College where I graduated with a CGPA of 8.67.
               </p>
               <p>
-                My journey into software engineering began with a simple question: "How does this work?"
-                That curiosity has evolved into a passion for building scalable web applications and
-                integrating cutting-edge AI technologies into digital experiences.
+                My journey into software engineering began with curiosity about how things work.
+                That curiosity has evolved into a passion for building real-world web applications
+                using modern technologies across the full stack.
               </p>
               <p>
-                Alongside my studies, I work on real-world full-stack development projects and have experience delivering
-                both internship and freelance projects. From crafting elegant frontends with React to architecting robust
-                backends with Node.js and Laravel, I thrive on the complete product development lifecycle.
+                I currently work as a Web Developer & Digital Content Editor at HappinessFactors,
+                building with Laravel and Groove.cm. Previously, I interned at NTech Infoway where
+                I developed a MERN stack CRM system. From crafting elegant frontends with React
+                to architecting robust backends with Node.js and Laravel, I thrive on the complete
+                product development lifecycle.
               </p>
               <p>
-                When I'm not coding, you'll find me exploring history, discussing geopolitics,
-                stargazing, playing guitar, or following sports. These diverse interests fuel
-                my creativity and problem-solving approach.
+                When I'm not coding, you'll find me exploring new technologies, contributing to
+                open source, or diving into topics like history and geopolitics. These diverse
+                interests fuel my creativity and problem-solving approach.
               </p>
             </div>
           </motion.div>

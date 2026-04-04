@@ -23,25 +23,25 @@ const Journey = () => {
       title: 'Master of Computer Applications',
       institution: 'ISTAR College, Anand',
       description:
-        'Specialized in full stack development, data science, and AI/ML. Completed with CGPA: 9.12',
+        'Specialized in full stack development and modern web technologies. Current CGPA: 9.27',
       color: 'from-[#8B5CF6] to-[#EC4899]',
     },
     {
       icon: Code,
-      year: '2022 - Present',
-      title: 'Professional Experience',
-      institution: 'Internship & Freelance',
+      year: 'Dec 2024 - Apr 2025',
+      title: 'Full-Stack Development Intern',
+      institution: 'NTech Infoway',
       description:
-        'Full Stack Developer at NTech Infoway and freelance projects. Built production-ready applications using MERN stack, Laravel, and modern frameworks.',
+        'Built a MERN stack CRM system handling client management and business workflows. Gained hands-on experience with MongoDB, Express.js, React, and Node.js.',
       color: 'from-[#EC4899] to-[#22C55E]',
     },
     {
       icon: Rocket,
-      year: 'Jan 2026 - Jan 2028',
-      title: 'MSc Artificial Intelligence',
-      institution: 'Kingston University London',
+      year: 'Jan 2025 - Present',
+      title: 'Web Developer & Digital Content Editor',
+      institution: 'HappinessFactors',
       description:
-        'Pursuing advanced studies in Machine Learning, Deep Learning, NLP, and Computer Vision with Professional Placement.',
+        'Building and maintaining web applications using Laravel and Groove.cm. Managing digital content strategy and platform integrations.',
       color: 'from-[#22C55E] to-[#6366F1]',
     },
   ];

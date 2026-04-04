@@ -24,13 +24,19 @@ const GitHubActivity = () => {
   useEffect(() => {
     const fetchGitHubData = async () => {
       try {
-        const response = await fetch('https://api.github.com/users/mihirmakwana03/repos?sort=updated&per_page=6');
-        const data = await response.json();
-        setRepos(data);
+        const [userResponse, reposResponse] = await Promise.all([
+          fetch('https://api.github.com/users/mihirmakwana03'),
+          fetch('https://api.github.com/users/mihirmakwana03/repos?sort=updated&per_page=100'),
+        ]);
+        const userData = await userResponse.json();
+        const allRepos: Repository[] = await reposResponse.json();
 
-        const totalStars = data.reduce((acc: number, repo: Repository) => acc + repo.stargazers_count, 0);
-        const totalForks = data.reduce((acc: number, repo: Repository) => acc + repo.forks_count, 0);
-        setStats({ repos: data.length, stars: totalStars, forks: totalForks });
+        const recentRepos = allRepos.slice(0, 6);
+        setRepos(recentRepos);
+
+        const totalStars = allRepos.reduce((acc: number, repo: Repository) => acc + repo.stargazers_count, 0);
+        const totalForks = allRepos.reduce((acc: number, repo: Repository) => acc + repo.forks_count, 0);
+        setStats({ repos: userData.public_repos ?? allRepos.length, stars: totalStars, forks: totalForks });
       } catch (error) {
         console.error('Error fetching GitHub data:', error);
       } finally {
@@ -85,17 +91,17 @@ const GitHubActivity = () => {
         >
           <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-center">
             <Activity className="w-8 h-8 text-[#6366F1] mx-auto mb-3" />
-            <div className="text-3xl font-bold text-[#E5E7EB] mb-1">{repos.length}+</div>
+            <div className="text-3xl font-bold text-[#E5E7EB] mb-1">{stats.repos}</div>
             <div className="text-[#9CA3AF] text-sm">Public Repositories</div>
           </div>
           <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-center">
             <Star className="w-8 h-8 text-[#22C55E] mx-auto mb-3" />
-            <div className="text-3xl font-bold text-[#E5E7EB] mb-1">{stats.stars}+</div>
+            <div className="text-3xl font-bold text-[#E5E7EB] mb-1">{stats.stars}</div>
             <div className="text-[#9CA3AF] text-sm">Total Stars</div>
           </div>
           <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-center">
             <GitFork className="w-8 h-8 text-[#6366F1] mx-auto mb-3" />
-            <div className="text-3xl font-bold text-[#E5E7EB] mb-1">{stats.forks}+</div>
+            <div className="text-3xl font-bold text-[#E5E7EB] mb-1">{stats.forks}</div>
             <div className="text-[#9CA3AF] text-sm">Total Forks</div>
           </div>
         </motion.div>
