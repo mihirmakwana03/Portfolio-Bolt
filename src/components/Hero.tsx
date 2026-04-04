@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Download, Github, Linkedin } from 'lucide-react';
+import { ArrowRight, Download, Github, Linkedin, MapPin, Mail } from 'lucide-react';
+import ProfilePhoto from './ProfilePhoto';
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -19,97 +20,168 @@ const Hero = () => {
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-72 h-72 bg-[#6366F1]/30 rounded-full filter blur-[128px] animate-pulse" />
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#22C55E]/20 rounded-full filter blur-[128px] animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6366F1]/5 rounded-full filter blur-[200px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div className="text-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="order-2 lg:order-1">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-6"
+            >
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E] text-sm font-medium">
+                <span className="w-2 h-2 bg-[#22C55E] rounded-full animate-pulse" />
+                Available for opportunities
+              </span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-4 leading-tight"
+            >
+              <span className="block text-[#E5E7EB]">Mihir</span>
+              <span className="block text-[#E5E7EB]">Makwana</span>
+              <span className="block text-3xl sm:text-4xl lg:text-5xl bg-gradient-to-r from-[#6366F1] to-[#22C55E] bg-clip-text text-transparent mt-2">
+                Full Stack Developer
+              </span>
+            </motion.h1>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex flex-wrap gap-4 text-sm text-[#9CA3AF] mb-6"
+            >
+              <span className="flex items-center gap-1.5">
+                <MapPin size={14} className="text-[#6366F1]" />
+                Anand, Gujarat, India
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Mail size={14} className="text-[#22C55E]" />
+                mihirpmakwana786@gmail.com
+              </span>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.25 }}
+              className="text-lg text-[#9CA3AF] mb-10 leading-relaxed max-w-xl"
+            >
+              MCA student at ISTAR College with hands-on experience building production
+              web applications. Specializing in MERN stack, Laravel, and crafting
+              seamless digital experiences.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.35 }}
+              className="flex flex-wrap gap-3 mb-10"
+            >
+              <button
+                onClick={() => scrollToSection('projects')}
+                className="group px-7 py-3.5 bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white rounded-lg font-medium hover:shadow-xl hover:shadow-[#6366F1]/30 transition-all duration-300 flex items-center gap-2"
+              >
+                View Projects
+                <ArrowRight
+                  size={18}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="px-7 py-3.5 bg-white/5 backdrop-blur-sm text-[#E5E7EB] rounded-lg font-medium border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+              >
+                Contact Me
+              </button>
+              <a
+                href="/Mihir_Makwana_CV.pdf"
+                download="Mihir_Makwana_CV.pdf"
+                className="px-7 py-3.5 bg-white/5 backdrop-blur-sm text-[#E5E7EB] rounded-lg font-medium border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex items-center gap-2"
+              >
+                <Download size={16} />
+                Resume
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.45 }}
+              className="flex items-center gap-4"
+            >
+              <a
+                href="https://github.com/mihirmakwana03"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-[#9CA3AF] hover:text-[#E5E7EB] hover:border-[#6366F1]/50 hover:bg-[#6366F1]/10 transition-all duration-300"
+              >
+                <Github size={20} />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/mihir-makwana-a098a21b7/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-[#9CA3AF] hover:text-[#E5E7EB] hover:border-[#22C55E]/50 hover:bg-[#22C55E]/10 transition-all duration-300"
+              >
+                <Linkedin size={20} />
+              </a>
+              <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
+              <span className="text-xs text-[#6B7280] font-mono">MCA · CGPA 9.27</span>
+            </motion.div>
+          </div>
+
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-6"
+            initial={{ opacity: 0, scale: 0.8, x: 40 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.2, type: 'spring', stiffness: 80 }}
+            className="order-1 lg:order-2 flex justify-center lg:justify-end"
           >
-            <span className="inline-block px-4 py-2 rounded-full bg-[#6366F1]/10 border border-[#6366F1]/20 text-[#6366F1] text-sm font-medium mb-8">
-              Available for opportunities
-            </span>
-          </motion.div>
+            <div className="relative">
+              <ProfilePhoto size="lg" animate={true} />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6"
-          >
-            <span className="block text-[#E5E7EB]">Mihir Makwana</span>
-            <span className="block bg-gradient-to-r from-[#6366F1] to-[#22C55E] bg-clip-text text-transparent">
-              Full Stack Developer
-            </span>
-          </motion.h1>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="absolute -bottom-4 -left-8 px-4 py-2.5 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-[#22C55E] rounded-full animate-pulse" />
+                  <span className="text-[#E5E7EB] text-xs font-medium">Open to Work</span>
+                </div>
+              </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-[#9CA3AF] max-w-3xl mx-auto mb-12 leading-relaxed"
-          >
-            Building scalable web applications and intelligent digital experiences
-            with modern technologies
-          </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.0 }}
+                className="absolute -top-2 -right-8 px-4 py-2.5 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
+              >
+                <div className="text-center">
+                  <div className="text-[#22C55E] text-lg font-bold leading-none">9.27</div>
+                  <div className="text-[#9CA3AF] text-[10px] mt-0.5">CGPA</div>
+                </div>
+              </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
-          >
-            <button
-              onClick={() => scrollToSection('projects')}
-              className="group px-8 py-4 bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white rounded-lg font-medium hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all duration-300 flex items-center gap-2"
-            >
-              View Projects
-              <ArrowRight
-                size={20}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="px-8 py-4 bg-white/5 backdrop-blur-sm text-[#E5E7EB] rounded-lg font-medium border border-white/10 hover:bg-white/10 transition-all duration-300"
-            >
-              Contact Me
-            </button>
-            <a
-              href="/Mihir_Makwana_CV.pdf"
-              download="Mihir_Makwana_CV.pdf"
-              className="px-8 py-4 bg-white/5 backdrop-blur-sm text-[#E5E7EB] rounded-lg font-medium border border-white/10 hover:bg-white/10 transition-all duration-300 flex items-center gap-2"
-            >
-              <Download size={20} />
-              Resume
-            </a>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex items-center justify-center gap-6"
-          >
-            <a
-              href="https://github.com/mihirmakwana03"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-[#9CA3AF] hover:text-[#E5E7EB] hover:border-[#6366F1]/50 transition-all duration-300"
-            >
-              <Github size={24} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/mihir-makwana-a098a21b7/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-[#9CA3AF] hover:text-[#E5E7EB] hover:border-[#6366F1]/50 transition-all duration-300"
-            >
-              <Linkedin size={24} />
-            </a>
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.2 }}
+                className="absolute top-1/2 -translate-y-1/2 -right-14 px-3 py-2 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
+              >
+                <div className="text-center">
+                  <div className="text-[#6366F1] text-lg font-bold leading-none">2+</div>
+                  <div className="text-[#9CA3AF] text-[10px] mt-0.5">Years exp</div>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -117,7 +189,7 @@ const Hero = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.5 }}
+        transition={{ duration: 1, delay: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <div className="w-6 h-10 border-2 border-[#6366F1]/50 rounded-full flex justify-center p-2">

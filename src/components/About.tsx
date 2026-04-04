@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Code2, Rocket, Heart, Target } from 'lucide-react';
+import ProfilePhoto from './ProfilePhoto';
 
 const About = () => {
   const ref = useRef(null);
@@ -58,17 +59,8 @@ const About = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative rounded-2xl overflow-hidden aspect-square">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#6366F1]/20 to-[#22C55E]/20 backdrop-blur-3xl" />
-              <div className="absolute inset-4 bg-gradient-to-br from-[#6366F1] to-[#22C55E] opacity-20 rounded-xl animate-pulse" />
-              <div className="relative z-10 h-full flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="text-8xl font-bold bg-gradient-to-r from-[#6366F1] to-[#22C55E] bg-clip-text text-transparent">
-                    MM
-                  </div>
-                  <p className="text-[#9CA3AF] mt-4">Full Stack Developer</p>
-                </div>
-              </div>
+            <div className="flex items-center justify-center py-8">
+              <ProfilePhoto size="md" animate={isInView} />
             </div>
           </motion.div>
 
