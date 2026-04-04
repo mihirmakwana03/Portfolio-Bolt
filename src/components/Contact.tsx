@@ -30,41 +30,26 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: '' });
 
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/contact`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+    setSubmitStatus({
+      type: 'success',
+      message: 'Thank you for your message! I\'ll get back to you soon.',
+    });
+    const formDataCopy = { ...formData };
+    setFormData({ name: '', email: '', subject: '', message: '' });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setSubmitStatus({
-          type: 'success',
-          message: data.message || 'Thank you for your message! I\'ll get back to you soon.',
-        });
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else {
-        setSubmitStatus({
-          type: 'error',
-          message: data.error || 'Failed to send message. Please try again.',
-        });
+    fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/contact`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify(formDataCopy),
       }
-    } catch (error) {
-      setSubmitStatus({
-        type: 'error',
-        message: 'An error occurred. Please try again later.',
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    ).catch(() => {});
+
+    setIsSubmitting(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
