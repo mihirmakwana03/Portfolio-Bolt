@@ -23,7 +23,7 @@ const Journey = () => {
       title: 'Master of Computer Applications',
       institution: 'ISTAR College, Anand',
       description:
-        'Specialized in full stack development and modern web technologies. Current CGPA: 9.27',
+        'Specialised in full stack development and modern web technologies. Graduated with CGPA: 9.27',
       color: 'from-[#8B5CF6] to-[#EC4899]',
     },
     {
@@ -43,6 +43,15 @@ const Journey = () => {
       description:
         'Building and maintaining web applications using Laravel and Groove.cm. Managing digital content strategy and platform integrations.',
       color: 'from-[#22C55E] to-[#6366F1]',
+    },
+    {
+      icon: GraduationCap,
+      year: 'Sep 2025 - Present',
+      title: 'MSc Artificial Intelligence',
+      institution: 'Kingston University, London',
+      description:
+        'Advancing expertise in machine learning, deep learning, and AI-driven systems. Based in London, UK.',
+      color: 'from-[#6366F1] to-[#22C55E]',
     },
   ];
 

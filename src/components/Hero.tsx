@@ -59,7 +59,7 @@ const Hero = () => {
             >
               <span className="flex items-center gap-1.5">
                 <MapPin size={14} className="text-[#6366F1]" />
-                Anand, Gujarat, India
+                London, UK
               </span>
               <span className="flex items-center gap-1.5">
                 <Mail size={14} className="text-[#22C55E]" />
@@ -73,9 +73,9 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.25 }}
               className="text-lg text-[#9CA3AF] mb-10 leading-relaxed max-w-xl"
             >
-              MCA student at ISTAR College with hands-on experience building production
-              web applications. Specializing in MERN stack, Laravel, and crafting
-              seamless digital experiences.
+              MSc AI student at Kingston University, London. MCA graduate from ISTAR
+              College with hands-on experience building production web applications.
+              Specializing in MERN stack, Laravel, and crafting seamless digital experiences.
             </motion.p>
 
             <motion.div

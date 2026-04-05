@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import profileImg from '../assets/IMG_0858.jpeg';
 
 interface ProfilePhotoProps {
   size?: 'sm' | 'md' | 'lg';
@@ -92,9 +93,9 @@ const ProfilePhoto = ({ size = 'md', animate = true }: ProfilePhotoProps) => {
         <div className="absolute inset-[2px] rounded-full overflow-hidden">
           {!imageError ? (
             <img
-              src="/profile.jpg"
+              src={profileImg}
               alt="Mihir Makwana"
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-cover object-center"
               onError={() => setImageError(true)}
             />
           ) : (

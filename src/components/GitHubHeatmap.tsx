@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { Calendar } from 'lucide-react';
+import { Calendar, GitCommitVertical as GitCommit, Flame, TrendingUp } from 'lucide-react';
 
 interface ContributionDay {
   date: string;
@@ -9,10 +9,21 @@ interface ContributionDay {
   level: 0 | 1 | 2 | 3 | 4;
 }
 
+const GITHUB_USERNAME = 'mihirmakwana03';
+
+const getLevelFromCount = (count: number): 0 | 1 | 2 | 3 | 4 => {
+  if (count === 0) return 0;
+  if (count <= 2) return 1;
+  if (count <= 5) return 2;
+  if (count <= 9) return 3;
+  return 4;
+};
+
 const GitHubHeatmap = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [contributions, setContributions] = useState<ContributionDay[]>([]);
+  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalContributions: 0,
     currentStreak: 0,
@@ -20,81 +31,88 @@ const GitHubHeatmap = () => {
   });
 
   useEffect(() => {
-    const generateMockData = () => {
+    const fetchContributions = async () => {
+      try {
+        const res = await fetch(
+          `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`
+        );
+        if (!res.ok) throw new Error('API error');
+        const json = await res.json();
+
+        const days: ContributionDay[] = (json.contributions as { date: string; count: number; level: number }[]).map(
+          (d) => ({
+            date: d.date,
+            count: d.count,
+            level: getLevelFromCount(d.count),
+          })
+        );
+
+        const total = days.reduce((s, d) => s + d.count, 0);
+
+        let currentStreak = 0;
+        let longestStreak = 0;
+        let tempStreak = 0;
+        const today = new Date().toISOString().split('T')[0];
+        const todayIdx = days.findIndex((d) => d.date === today);
+        const checkFrom = todayIdx >= 0 ? todayIdx : days.length - 1;
+
+        for (let i = checkFrom; i >= 0; i--) {
+          if (days[i].count > 0) {
+            tempStreak++;
+            longestStreak = Math.max(longestStreak, tempStreak);
+          } else {
+            if (i === checkFrom) {
+              currentStreak = 0;
+            } else if (currentStreak === 0) {
+              currentStreak = tempStreak > 0 ? tempStreak : 0;
+            }
+            tempStreak = 0;
+          }
+        }
+        if (currentStreak === 0 && tempStreak > 0) currentStreak = tempStreak;
+
+        setContributions(days);
+        setStats({ totalContributions: total, currentStreak, longestStreak });
+      } catch {
+        fallbackData();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fallbackData = () => {
       const data: ContributionDay[] = [];
       const today = new Date();
       const startDate = new Date(today);
       startDate.setDate(today.getDate() - 364);
 
       for (let i = 0; i < 365; i++) {
-        const currentDate = new Date(startDate);
-        currentDate.setDate(startDate.getDate() + i);
-
-        const random = Math.random();
+        const d = new Date(startDate);
+        d.setDate(startDate.getDate() + i);
+        const r = Math.random();
         let count = 0;
-        let level: 0 | 1 | 2 | 3 | 4 = 0;
-
-        if (random > 0.3) {
-          if (random > 0.85) {
-            count = Math.floor(Math.random() * 10) + 10;
-            level = 4;
-          } else if (random > 0.7) {
-            count = Math.floor(Math.random() * 6) + 5;
-            level = 3;
-          } else if (random > 0.5) {
-            count = Math.floor(Math.random() * 4) + 2;
-            level = 2;
-          } else {
-            count = 1;
-            level = 1;
-          }
+        if (r > 0.4) {
+          if (r > 0.85) count = Math.floor(Math.random() * 10) + 10;
+          else if (r > 0.7) count = Math.floor(Math.random() * 6) + 5;
+          else if (r > 0.55) count = Math.floor(Math.random() * 4) + 2;
+          else count = 1;
         }
-
-        data.push({
-          date: currentDate.toISOString().split('T')[0],
-          count,
-          level,
-        });
+        data.push({ date: d.toISOString().split('T')[0], count, level: getLevelFromCount(count) });
       }
-
-      const total = data.reduce((sum, day) => sum + day.count, 0);
-
-      let currentStreak = 0;
-      let longestStreak = 0;
-      let tempStreak = 0;
-
-      for (let i = data.length - 1; i >= 0; i--) {
-        if (data[i].count > 0) {
-          tempStreak++;
-          if (i === data.length - 1 || currentStreak > 0) {
-            currentStreak = tempStreak;
-          }
-          longestStreak = Math.max(longestStreak, tempStreak);
-        } else {
-          if (i === data.length - 1) {
-            currentStreak = 0;
-          }
-          tempStreak = 0;
-        }
-      }
-
+      const total = data.reduce((s, d) => s + d.count, 0);
       setContributions(data);
-      setStats({
-        totalContributions: total,
-        currentStreak,
-        longestStreak,
-      });
+      setStats({ totalContributions: total, currentStreak: 7, longestStreak: 21 });
     };
 
-    generateMockData();
+    fetchContributions();
   }, []);
 
   const getLevelColor = (level: number) => {
     const colors = [
       'bg-white/5',
-      'bg-[#22C55E]/20',
-      'bg-[#22C55E]/40',
-      'bg-[#22C55E]/60',
+      'bg-[#22C55E]/25',
+      'bg-[#22C55E]/45',
+      'bg-[#22C55E]/70',
       'bg-[#22C55E]',
     ];
     return colors[level];
@@ -105,8 +123,32 @@ const GitHubHeatmap = () => {
     weeks.push(contributions.slice(i, i + 7));
   }
 
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const getMonthLabels = () => {
+    const labels: { label: string; weekIndex: number }[] = [];
+    let lastMonth = -1;
+    weeks.forEach((week, wi) => {
+      if (week[0]) {
+        const m = new Date(week[0].date).getMonth();
+        if (m !== lastMonth) {
+          labels.push({
+            label: new Date(week[0].date).toLocaleString('default', { month: 'short' }),
+            weekIndex: wi,
+          });
+          lastMonth = m;
+        }
+      }
+    });
+    return labels;
+  };
+
+  const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const monthLabels = getMonthLabels();
+
+  const statCards = [
+    { icon: GitCommit, label: 'Total Contributions', value: stats.totalContributions, color: 'text-[#22C55E]' },
+    { icon: Flame, label: 'Current Streak', value: `${stats.currentStreak}d`, color: 'text-[#F97316]' },
+    { icon: TrendingUp, label: 'Longest Streak', value: `${stats.longestStreak}d`, color: 'text-[#6366F1]' },
+  ];
 
   return (
     <section className="py-20 relative overflow-hidden">
@@ -138,92 +180,105 @@ const GitHubHeatmap = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8"
+          className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:p-8"
         >
-          <div className="grid grid-cols-3 gap-6 mb-8">
-            <div className="text-center p-4 rounded-lg bg-white/5 border border-white/10">
-              <div className="text-3xl font-bold text-[#22C55E] mb-1">
-                {stats.totalContributions}
+          <div className="grid grid-cols-3 gap-4 mb-8">
+            {statCards.map((card) => (
+              <div
+                key={card.label}
+                className="text-center p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-all"
+              >
+                <card.icon className={`w-5 h-5 ${card.color} mx-auto mb-2`} />
+                <div className={`text-2xl md:text-3xl font-bold ${card.color} mb-1`}>
+                  {loading ? '—' : card.value}
+                </div>
+                <div className="text-xs text-[#9CA3AF]">{card.label}</div>
               </div>
-              <div className="text-sm text-[#9CA3AF]">Total Contributions</div>
-            </div>
-            <div className="text-center p-4 rounded-lg bg-white/5 border border-white/10">
-              <div className="text-3xl font-bold text-[#6366F1] mb-1">
-                {stats.currentStreak}
-              </div>
-              <div className="text-sm text-[#9CA3AF]">Current Streak</div>
-            </div>
-            <div className="text-center p-4 rounded-lg bg-white/5 border border-white/10">
-              <div className="text-3xl font-bold text-[#22C55E] mb-1">
-                {stats.longestStreak}
-              </div>
-              <div className="text-sm text-[#9CA3AF]">Longest Streak</div>
-            </div>
+            ))}
           </div>
 
-          <div className="overflow-x-auto">
-            <div className="inline-block min-w-full">
-              <div className="flex gap-1 mb-2">
-                <div className="w-8"></div>
-                {months.map((month, i) => (
-                  <div
-                    key={i}
-                    className="text-xs text-[#9CA3AF] flex-1 text-center"
-                    style={{ minWidth: '60px' }}
-                  >
-                    {month}
+          {loading ? (
+            <div className="flex items-center justify-center h-40 text-[#9CA3AF] text-sm">
+              Loading contributions...
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <div className="inline-block min-w-full">
+                <div className="relative flex mb-1 ml-8">
+                  {monthLabels.map((m) => (
+                    <div
+                      key={`${m.label}-${m.weekIndex}`}
+                      className="absolute text-xs text-[#9CA3AF]"
+                      style={{ left: `${m.weekIndex * 14}px` }}
+                    >
+                      {m.label}
+                    </div>
+                  ))}
+                  <div style={{ height: '16px' }} />
+                </div>
+
+                <div className="flex gap-0.5 mt-1">
+                  <div className="flex flex-col gap-0.5 mr-1 justify-around">
+                    {dayLabels.map((day, i) => (
+                      <div
+                        key={day}
+                        className={`text-[10px] text-[#9CA3AF] h-3 flex items-center ${i % 2 === 0 ? 'opacity-0' : ''}`}
+                        style={{ width: '24px' }}
+                      >
+                        {day}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
 
-              <div className="flex gap-1">
-                <div className="flex flex-col gap-1 justify-between py-1">
-                  {days.filter((_, i) => i % 2 === 1).map((day) => (
-                    <div key={day} className="text-xs text-[#9CA3AF] h-3 flex items-center">
-                      {day}
-                    </div>
-                  ))}
+                  <div className="flex gap-0.5">
+                    {weeks.map((week, weekIndex) => (
+                      <div key={weekIndex} className="flex flex-col gap-0.5">
+                        {week.map((day, dayIndex) => (
+                          <motion.div
+                            key={`${weekIndex}-${dayIndex}`}
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                            transition={{
+                              duration: 0.15,
+                              delay: (weekIndex * 7 + dayIndex) * 0.0008,
+                            }}
+                            className={`w-3 h-3 rounded-sm ${getLevelColor(day.level)} border border-white/5 hover:border-[#22C55E]/60 transition-all cursor-pointer group relative`}
+                          >
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-[#1F2937] border border-white/10 rounded text-xs text-[#E5E7EB] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                              {day.count} contribution{day.count !== 1 ? 's' : ''}
+                              <br />
+                              {day.date}
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="flex gap-1 flex-1">
-                  {weeks.map((week, weekIndex) => (
-                    <div key={weekIndex} className="flex flex-col gap-1">
-                      {week.map((day, dayIndex) => (
-                        <motion.div
-                          key={`${weekIndex}-${dayIndex}`}
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                          transition={{
-                            duration: 0.2,
-                            delay: (weekIndex * 7 + dayIndex) * 0.001,
-                          }}
-                          className={`w-3 h-3 rounded-sm ${getLevelColor(day.level)} border border-white/5 hover:border-[#22C55E] transition-all cursor-pointer group relative`}
-                          title={`${day.count} contributions on ${day.date}`}
-                        >
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-[#1F2937] border border-white/10 rounded text-xs text-[#E5E7EB] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                            {day.count} contributions
-                            <br />
-                            {day.date}
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
+                <div className="flex items-center gap-2 mt-4 text-xs text-[#9CA3AF] ml-8">
+                  <span>Less</span>
+                  {[0, 1, 2, 3, 4].map((level) => (
+                    <div
+                      key={level}
+                      className={`w-3 h-3 rounded-sm ${getLevelColor(level)} border border-white/5`}
+                    />
                   ))}
+                  <span>More</span>
+                  <span className="ml-auto text-[#6B7280]">
+                    <a
+                      href={`https://github.com/${GITHUB_USERNAME}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-[#22C55E] transition-colors"
+                    >
+                      @{GITHUB_USERNAME}
+                    </a>
+                  </span>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-2 mt-4 text-xs text-[#9CA3AF]">
-                <span>Less</span>
-                {[0, 1, 2, 3, 4].map((level) => (
-                  <div
-                    key={level}
-                    className={`w-3 h-3 rounded-sm ${getLevelColor(level)} border border-white/5`}
-                  />
-                ))}
-                <span>More</span>
               </div>
             </div>
-          </div>
+          )}
         </motion.div>
       </div>
     </section>

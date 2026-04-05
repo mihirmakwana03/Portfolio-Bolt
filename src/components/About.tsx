@@ -75,9 +75,10 @@ const About = () => {
             </h3>
             <div className="space-y-4 text-[#9CA3AF] leading-relaxed">
               <p>
-                I am a Master of Computer Applications (MCA) student at ISTAR College, Anand, Gujarat,
-                with a strong academic record (CGPA: 9.27). My foundation was built during my BCA
-                at SEMCOM College where I graduated with a CGPA of 8.67.
+                I completed my Master of Computer Applications (MCA) at ISTAR College, Anand,
+                with a CGPA of 9.27, and I'm now pursuing an MSc in Artificial Intelligence at
+                Kingston University, London. My foundation was built during my BCA at SEMCOM
+                College where I graduated with a CGPA of 8.67.
               </p>
               <p>
                 My journey into software engineering began with curiosity about how things work.
@@ -85,7 +86,7 @@ const About = () => {
                 using modern technologies across the full stack.
               </p>
               <p>
-                I currently work as a Web Developer & Digital Content Editor at HappinessFactors,
+                I work as a Web Developer & Digital Content Editor at HappinessFactors,
                 building with Laravel and Groove.cm. Previously, I interned at NTech Infoway where
                 I developed a MERN stack CRM system. From crafting elegant frontends with React
                 to architecting robust backends with Node.js and Laravel, I thrive on the complete
@@ -93,7 +94,7 @@ const About = () => {
               </p>
               <p>
                 When I'm not coding, you'll find me exploring new technologies, contributing to
-                open source, or diving into topics like history and geopolitics. These diverse
+                open source, or diving into topics like AI, history and geopolitics. These diverse
                 interests fuel my creativity and problem-solving approach.
               </p>
             </div>
