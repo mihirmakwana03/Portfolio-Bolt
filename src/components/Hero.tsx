@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Download, Github, Linkedin, MapPin, Mail } from 'lucide-react';
 import ProfilePhoto from './ProfilePhoto';
+import HeroCanvas from './HeroCanvas';
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -15,12 +16,13 @@ const Hero = () => {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#6366F1]/20 via-[#0B0B0F] to-[#22C55E]/20" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#6366F1]/10 via-[#0B0B0F] to-[#22C55E]/10" />
 
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-[#6366F1]/30 rounded-full filter blur-[128px] animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#22C55E]/20 rounded-full filter blur-[128px] animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#6366F1]/5 rounded-full filter blur-[200px]" />
+      <HeroCanvas />
+
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-[#6366F1]/20 rounded-full filter blur-[128px]" />
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#22C55E]/15 rounded-full filter blur-[128px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">

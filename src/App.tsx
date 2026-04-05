@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -12,11 +13,23 @@ import Journey from './components/Journey';
 import Interests from './components/Interests';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import CommandPalette from './components/CommandPalette';
+import KeyboardShortcuts from './components/KeyboardShortcuts';
+import AIChatbot from './components/AIChatbot';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 
 function App() {
+  const [cmdOpen, setCmdOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+
+  const openCmd = useCallback(() => setCmdOpen(true), []);
+  const openShortcuts = useCallback(() => setShortcutsOpen(true), []);
+
+  useKeyboardShortcuts({ onCommandPalette: openCmd, onShortcutsHelp: openShortcuts });
+
   return (
     <div className="min-h-screen bg-[#0B0B0F] text-[#E5E7EB] overflow-x-hidden">
-      <Navigation />
+      <Navigation onCommandPalette={openCmd} />
       <Hero />
       <About />
       <Skills />
@@ -30,6 +43,10 @@ function App() {
       <Interests />
       <Contact />
       <Footer />
+
+      <CommandPalette isOpen={cmdOpen} onClose={() => setCmdOpen(false)} />
+      <KeyboardShortcuts isOpen={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      <AIChatbot />
     </div>
   );
 }

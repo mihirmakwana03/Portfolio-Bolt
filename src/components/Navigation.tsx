@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Menu, X } from 'lucide-react';
+import { Github, Linkedin, Mail, Menu, X, Search } from 'lucide-react';
 
-const Navigation = () => {
+interface NavigationProps {
+  onCommandPalette: () => void;
+}
+
+const Navigation = ({ onCommandPalette }: NavigationProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -31,6 +35,8 @@ const Navigation = () => {
     { label: 'Contact', id: 'contact' },
   ];
 
+  const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform);
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -57,35 +63,47 @@ const Navigation = () => {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
+                className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors text-sm"
               >
                 {item.label}
               </button>
             ))}
           </div>
 
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-3">
+            <button
+              onClick={onCommandPalette}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-[#9CA3AF] hover:text-[#E5E7EB] hover:border-white/20 transition-all text-xs"
+            >
+              <Search size={13} />
+              <span>Search</span>
+              <kbd className="flex items-center gap-0.5 text-[10px] text-[#4B5563]">
+                <span>{isMac ? '⌘' : 'Ctrl'}</span>
+                <span>K</span>
+              </kbd>
+            </button>
+
             <a
               href="https://github.com/mihirmakwana03"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
             >
-              <Github size={20} />
+              <Github size={18} />
             </a>
             <a
-              href="https://linkedin.com/in/mihirmakwana03"
+              href="https://www.linkedin.com/in/mihir-makwana-a098a21b7/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
             >
-              <Linkedin size={20} />
+              <Linkedin size={18} />
             </a>
             <a
               href="mailto:mihirpmakwana786@gmail.com"
               className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
             >
-              <Mail size={20} />
+              <Mail size={18} />
             </a>
           </div>
 
@@ -106,6 +124,13 @@ const Navigation = () => {
           className="md:hidden bg-[#0B0B0F]/95 backdrop-blur-lg border-t border-white/5"
         >
           <div className="px-4 py-4 space-y-3">
+            <button
+              onClick={onCommandPalette}
+              className="w-full flex items-center gap-2 py-2 text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
+            >
+              <Search size={16} />
+              <span>Search / Command Palette</span>
+            </button>
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -116,26 +141,13 @@ const Navigation = () => {
               </button>
             ))}
             <div className="flex items-center space-x-4 pt-4 border-t border-white/5">
-              <a
-                href="https://github.com/mihirmakwana03"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
-              >
+              <a href="https://github.com/mihirmakwana03" target="_blank" rel="noopener noreferrer" className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors">
                 <Github size={20} />
               </a>
-              <a
-                href="https://linkedin.com/in/mihirmakwana03"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
-              >
+              <a href="https://www.linkedin.com/in/mihir-makwana-a098a21b7/" target="_blank" rel="noopener noreferrer" className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors">
                 <Linkedin size={20} />
               </a>
-              <a
-                href="mailto:mihirpmakwana786@gmail.com"
-                className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
-              >
+              <a href="mailto:mihirpmakwana786@gmail.com" className="text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors">
                 <Mail size={20} />
               </a>
             </div>
