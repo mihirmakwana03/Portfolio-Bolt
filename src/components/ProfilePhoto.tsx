@@ -116,16 +116,6 @@ const ProfilePhoto = ({ size = 'md', animate = true }: ProfilePhotoProps) => {
           )}
         </div>
 
-        {animate && (
-          <motion.div
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-0 rounded-full"
-            style={{
-              background: 'conic-gradient(from 0deg, transparent 80%, rgba(99, 102, 241, 0.6) 100%)',
-            }}
-          />
-        )}
       </motion.div>
     </div>
   );
