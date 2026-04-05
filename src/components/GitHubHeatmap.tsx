@@ -74,34 +74,11 @@ const GitHubHeatmap = () => {
         setContributions(days);
         setStats({ totalContributions: total, currentStreak, longestStreak });
       } catch {
-        fallbackData();
+        setContributions([]);
+        setStats({ totalContributions: 0, currentStreak: 0, longestStreak: 0 });
       } finally {
         setLoading(false);
       }
-    };
-
-    const fallbackData = () => {
-      const data: ContributionDay[] = [];
-      const today = new Date();
-      const startDate = new Date(today);
-      startDate.setDate(today.getDate() - 364);
-
-      for (let i = 0; i < 365; i++) {
-        const d = new Date(startDate);
-        d.setDate(startDate.getDate() + i);
-        const r = Math.random();
-        let count = 0;
-        if (r > 0.4) {
-          if (r > 0.85) count = Math.floor(Math.random() * 10) + 10;
-          else if (r > 0.7) count = Math.floor(Math.random() * 6) + 5;
-          else if (r > 0.55) count = Math.floor(Math.random() * 4) + 2;
-          else count = 1;
-        }
-        data.push({ date: d.toISOString().split('T')[0], count, level: getLevelFromCount(count) });
-      }
-      const total = data.reduce((s, d) => s + d.count, 0);
-      setContributions(data);
-      setStats({ totalContributions: total, currentStreak: 7, longestStreak: 21 });
     };
 
     fetchContributions();

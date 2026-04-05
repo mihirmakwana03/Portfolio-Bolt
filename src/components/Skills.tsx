@@ -53,9 +53,9 @@ const Skills = () => {
       category: 'Tools & Others',
       skills: [
         { name: 'Git/GitHub', level: 90 },
-        { name: 'Python (DS/ML)', level: 80 },
-        { name: 'R Programming', level: 75 },
         { name: 'REST APIs', level: 90 },
+        { name: 'R Programming', level: 75 },
+        { name: 'Docker', level: 70 },
       ],
     },
   ];
@@ -135,7 +135,7 @@ const Skills = () => {
             { label: 'Projects Completed', value: '15+' },
             { label: 'Technologies', value: '20+' },
             { label: 'Hours of Coding', value: '1000+' },
-            { label: 'Cup of Coffee', value: '∞' },
+            { label: 'Open Source Commits', value: '100+' },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}

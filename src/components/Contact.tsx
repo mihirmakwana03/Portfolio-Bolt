@@ -30,26 +30,34 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: '' });
 
-    setSubmitStatus({
-      type: 'success',
-      message: 'Thank you for your message! I\'ll get back to you soon.',
-    });
-    const formDataCopy = { ...formData };
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/contact`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-    fetch(
-      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/contact`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify(formDataCopy),
-      }
-    ).catch(() => {});
+      if (!res.ok) throw new Error('Failed to send');
 
-    setIsSubmitting(false);
+      setSubmitStatus({
+        type: 'success',
+        message: "Thank you for your message! I'll get back to you soon.",
+      });
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Something went wrong. Please try emailing me directly at mihirpmakwana786@gmail.com',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

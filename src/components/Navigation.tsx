@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Menu, X, Search } from 'lucide-react';
+import { Github, Linkedin, Mail, Menu, X } from 'lucide-react';
 
-interface NavigationProps {
-  onCommandPalette: () => void;
-}
-
-const Navigation = ({ onCommandPalette }: NavigationProps) => {
+const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -34,8 +30,6 @@ const Navigation = ({ onCommandPalette }: NavigationProps) => {
     { label: 'Journey', id: 'journey' },
     { label: 'Contact', id: 'contact' },
   ];
-
-  const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform);
 
   return (
     <motion.nav
@@ -71,18 +65,6 @@ const Navigation = ({ onCommandPalette }: NavigationProps) => {
           </div>
 
           <div className="hidden md:flex items-center space-x-3">
-            <button
-              onClick={onCommandPalette}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-[#9CA3AF] hover:text-[#E5E7EB] hover:border-white/20 transition-all text-xs"
-            >
-              <Search size={13} />
-              <span>Search</span>
-              <kbd className="flex items-center gap-0.5 text-[10px] text-[#4B5563]">
-                <span>{isMac ? '⌘' : 'Ctrl'}</span>
-                <span>K</span>
-              </kbd>
-            </button>
-
             <a
               href="https://github.com/mihirmakwana03"
               target="_blank"
@@ -124,13 +106,6 @@ const Navigation = ({ onCommandPalette }: NavigationProps) => {
           className="md:hidden bg-[#0B0B0F]/95 backdrop-blur-lg border-t border-white/5"
         >
           <div className="px-4 py-4 space-y-3">
-            <button
-              onClick={onCommandPalette}
-              className="w-full flex items-center gap-2 py-2 text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
-            >
-              <Search size={16} />
-              <span>Search / Command Palette</span>
-            </button>
             {navItems.map((item) => (
               <button
                 key={item.id}

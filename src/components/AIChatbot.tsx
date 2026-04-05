@@ -98,7 +98,7 @@ const getAnswer = (question: string): string => {
   }
 
   if (/\b(interest|hobby|passion|like|enjoy)\b/.test(q)) {
-    return `Outside coding, Mihir is passionate about ${PORTFOLIO_KNOWLEDGE.interests.join(', ')}. His diverse interests fuel his creative problem-solving approach.`;
+    return `Outside coding, Mihir is passionate about AI/ML, Web Development, Open Source, History, and Geopolitics. These varied interests fuel his creative problem-solving approach.`;
   }
 
   if (/\b(ai|machine learning|ml|deep learning|artificial intelligence)\b/.test(q)) {
@@ -106,11 +106,11 @@ const getAnswer = (question: string): string => {
   }
 
   if (/\b(resume|cv|download)\b/.test(q)) {
-    return `You can download Mihir's resume/CV directly from this portfolio — look for the "Resume" button in the Hero section or press D then R as a keyboard shortcut!`;
+    return `You can download Mihir's resume/CV directly from this portfolio — look for the "Resume" button in the Hero section!`;
   }
 
   if (/\b(portfolio|website|built with|site|made with)\b/.test(q)) {
-    return `This portfolio is built with React, TypeScript, Tailwind CSS, Framer Motion, Three.js (for the 3D background), and Supabase. It features a command palette (⌘K), keyboard shortcuts, and this AI assistant!`;
+    return `This portfolio is built with React, TypeScript, Tailwind CSS, Framer Motion, Three.js (for the 3D background), and Supabase. It features live GitHub contribution data and this AI assistant!`;
   }
 
   return `I'm not sure about that specific question, but I can help you learn about Mihir's skills, education, work experience, projects, or how to contact him. What would you like to know?`;
