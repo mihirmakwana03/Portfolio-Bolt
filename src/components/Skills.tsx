@@ -2,60 +2,79 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 
+interface SkillBadge {
+  name: string;
+  note?: string;
+}
+
 const Skills = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-  const skillCategories = [
+  const skillCategories: { category: string; highlight?: boolean; skills: SkillBadge[] }[] = [
+    {
+      category: 'AI / ML',
+      highlight: true,
+      skills: [
+        { name: 'PyTorch' },
+        { name: 'TensorFlow / Keras' },
+        { name: 'scikit-learn' },
+        { name: 'OpenCV' },
+        { name: 'FaceNet' },
+        { name: 'MTCNN' },
+        { name: 'Streamlit' },
+        { name: 'imbalanced-learn' },
+        { name: 'Deep Learning' },
+        { name: 'Computer Vision' },
+        { name: 'CNNs' },
+        { name: 'Transfer Learning' },
+      ],
+    },
     {
       category: 'Languages',
       skills: [
-        { name: 'JavaScript', level: 90 },
-        { name: 'Python', level: 85 },
-        { name: 'Java', level: 80 },
-        { name: 'PHP', level: 85 },
+        { name: 'Python' },
+        { name: 'JavaScript' },
+        { name: 'Java' },
+        { name: 'PHP' },
+        { name: 'SQL' },
       ],
     },
     {
       category: 'Frontend',
       skills: [
-        { name: 'React', level: 90 },
-        { name: 'HTML/CSS', level: 95 },
-        { name: 'Tailwind CSS', level: 90 },
-        { name: 'jQuery', level: 85 },
+        { name: 'React' },
+        { name: 'HTML5' },
+        { name: 'CSS3' },
+        { name: 'Tailwind CSS' },
+        { name: 'jQuery' },
       ],
     },
     {
       category: 'Backend',
       skills: [
-        { name: 'Node.js', level: 85 },
-        { name: 'Laravel', level: 80 },
-        { name: 'Express', level: 85 },
+        { name: 'Node.js' },
+        { name: 'Express.js' },
+        { name: 'Laravel' },
+        { name: 'REST APIs' },
       ],
     },
     {
       category: 'Databases',
       skills: [
-        { name: 'MySQL', level: 85 },
-        { name: 'MongoDB', level: 80 },
-      ],
-    },
-    {
-      category: 'AI & Data Science',
-      skills: [
-        { name: 'Machine Learning', level: 75 },
-        { name: 'Deep Learning', level: 70 },
-        { name: 'NLP', level: 70 },
-        { name: 'Computer Vision', level: 65 },
+        { name: 'MongoDB' },
+        { name: 'MySQL' },
       ],
     },
     {
       category: 'Tools & Others',
       skills: [
-        { name: 'Git/GitHub', level: 90 },
-        { name: 'REST APIs', level: 90 },
-        { name: 'R Programming', level: 75 },
-        { name: 'Docker', level: 70 },
+        { name: 'Git' },
+        { name: 'GitHub' },
+        { name: 'VS Code' },
+        { name: 'Jupyter' },
+        { name: 'Postman' },
+        { name: 'Docker', note: 'learning' },
       ],
     },
   ];
@@ -90,35 +109,39 @@ const Skills = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-              className="group p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#6366F1]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#6366F1]/20"
+              className={`group p-6 rounded-xl backdrop-blur-sm border transition-all duration-300 ${
+                category.highlight
+                  ? 'bg-gradient-to-br from-[#6366F1]/10 to-[#22C55E]/10 border-[#6366F1]/30 hover:border-[#6366F1]/60 lg:col-span-3 hover:shadow-lg hover:shadow-[#6366F1]/20'
+                  : 'bg-white/5 border-white/10 hover:border-[#6366F1]/50 hover:shadow-lg hover:shadow-[#6366F1]/20'
+              }`}
             >
               <h3 className="text-xl font-bold text-[#E5E7EB] mb-6 flex items-center gap-2">
-                <span className="w-2 h-2 bg-[#6366F1] rounded-full" />
+                <span className={`w-2 h-2 rounded-full ${category.highlight ? 'bg-[#22C55E]' : 'bg-[#6366F1]'}`} />
                 {category.category}
+                {category.highlight && (
+                  <span className="ml-auto text-[10px] uppercase tracking-wider text-[#22C55E] font-semibold px-2 py-0.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20">
+                    Primary Focus
+                  </span>
+                )}
               </h3>
 
-              <div className="space-y-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skill.name}>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-[#E5E7EB] text-sm font-medium">
-                        {skill.name}
+              <div className="flex flex-wrap gap-2">
+                {category.skills.map((skill) => (
+                  <span
+                    key={skill.name}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm border transition-colors ${
+                      category.highlight
+                        ? 'bg-white/5 border-[#6366F1]/20 text-[#E5E7EB] hover:border-[#6366F1]/50'
+                        : 'bg-white/5 border-white/10 text-[#E5E7EB] hover:border-[#6366F1]/40'
+                    }`}
+                  >
+                    {skill.name}
+                    {skill.note && (
+                      <span className="text-[10px] uppercase tracking-wider text-[#9CA3AF]">
+                        · {skill.note}
                       </span>
-                      <span className="text-[#9CA3AF] text-xs">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={isInView ? { width: `${skill.level}%` } : {}}
-                        transition={{
-                          duration: 1,
-                          delay: categoryIndex * 0.1 + skillIndex * 0.1 + 0.3,
-                          ease: 'easeOut',
-                        }}
-                        className="h-full bg-gradient-to-r from-[#6366F1] to-[#22C55E] rounded-full"
-                      />
-                    </div>
-                  </div>
+                    )}
+                  </span>
                 ))}
               </div>
             </motion.div>
@@ -132,10 +155,10 @@ const Skills = () => {
           className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {[
-            { label: 'Projects Completed', value: '15+' },
-            { label: 'Technologies', value: '20+' },
-            { label: 'Hours of Coding', value: '1000+' },
-            { label: 'Open Source Commits', value: '100+' },
+            { label: 'Pinned AI & Web Projects', value: '6' },
+            { label: 'Kingston MSc ML Coursework Projects', value: '3' },
+            { label: 'MCA CGPA (out of 10)', value: '9.27' },
+            { label: 'GitHub Contributions (past year)', value: '427' },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}

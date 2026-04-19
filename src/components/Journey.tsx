@@ -10,48 +10,49 @@ const Journey = () => {
   const milestones = [
     {
       icon: GraduationCap,
-      year: '2020 - 2023',
-      title: 'Bachelor of Computer Applications',
-      institution: 'SEMCOM College, Anand',
-      description:
-        'Built strong foundation in programming, web development, and software engineering. CGPA: 8.67',
-      color: 'from-[#6366F1] to-[#8B5CF6]',
-    },
-    {
-      icon: BookOpen,
-      year: '2023 - 2025',
-      title: 'Master of Computer Applications',
-      institution: 'ISTAR College, Anand',
-      description:
-        'Specialised in full stack development and modern web technologies. Graduated with CGPA: 9.27',
-      color: 'from-[#8B5CF6] to-[#EC4899]',
-    },
-    {
-      icon: Code,
-      year: 'Dec 2024 - Apr 2025',
-      title: 'Full-Stack Development Intern',
-      institution: 'NTech Infoway',
-      description:
-        'Built a MERN stack CRM system handling client management and business workflows. Gained hands-on experience with MongoDB, Express.js, React, and Node.js.',
-      color: 'from-[#EC4899] to-[#22C55E]',
-    },
-    {
-      icon: Rocket,
-      year: 'Jan 2025 - Present',
-      title: 'Web Developer & Digital Content Editor',
-      institution: 'HappinessFactors',
-      description:
-        'Building and maintaining web applications using Laravel and Groove.cm. Managing digital content strategy and platform integrations.',
-      color: 'from-[#22C55E] to-[#6366F1]',
-    },
-    {
-      icon: GraduationCap,
-      year: 'Sep 2025 - Present',
+      year: 'Jan 2026 – Jan 2028',
       title: 'MSc Artificial Intelligence',
       institution: 'Kingston University, London',
       description:
-        'Advancing expertise in machine learning, deep learning, and AI-driven systems. Based in London, UK.',
+        'Specialising in computer vision and deep learning. Includes a Professional Placement year. Coursework covers CNNs, transfer learning, classical ML, and applied AI research.',
       color: 'from-[#6366F1] to-[#22C55E]',
+      current: true,
+    },
+    {
+      icon: Rocket,
+      year: 'Jan 2025 – Nov 2025',
+      title: 'Web Developer & Digital Content Editor (Freelance)',
+      institution: 'HappinessFactors',
+      description:
+        'Built and maintained a Laravel website with Blade templates and Tailwind, integrated with Groove.cm for headless content management. Managed digital content strategy and platform integrations.',
+      color: 'from-[#22C55E] to-[#6366F1]',
+    },
+    {
+      icon: Code,
+      year: 'Dec 2024 – Apr 2025',
+      title: 'Full-Stack Development Intern',
+      institution: 'NTech Infoway',
+      description:
+        'Built a MERN-stack CRM for Growatt InfoSystem — tracking solar-system clients and service tickets with role-based views for admin and field engineers.',
+      color: 'from-[#EC4899] to-[#22C55E]',
+    },
+    {
+      icon: BookOpen,
+      year: 'Jul 2023 – May 2025',
+      title: 'Master of Computer Applications (MCA)',
+      institution: 'ISTAR College, Anand',
+      description:
+        'Graduated with CGPA 9.27. Specialised in full-stack development and modern web technologies.',
+      color: 'from-[#8B5CF6] to-[#EC4899]',
+    },
+    {
+      icon: GraduationCap,
+      year: 'Jun 2020 – Apr 2023',
+      title: 'Bachelor of Computer Applications (BCA)',
+      institution: 'SEMCOM College, Anand',
+      description:
+        'Graduated with CGPA 8.67. Built foundations in programming, web development, and software engineering.',
+      color: 'from-[#6366F1] to-[#8B5CF6]',
     },
   ];
 
@@ -91,7 +92,11 @@ const Journey = () => {
                 }`}
               >
                 <div className="flex-1 lg:text-right" style={{ textAlign: index % 2 === 0 ? 'right' : 'left' }}>
-                  <div className={`inline-block p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#6366F1]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[#6366F1]/20 ${index % 2 === 0 ? '' : 'lg:ml-auto'}`}>
+                  <div className={`inline-block p-6 rounded-xl backdrop-blur-sm border transition-all duration-300 hover:shadow-lg hover:shadow-[#6366F1]/20 ${
+                    milestone.current
+                      ? 'bg-gradient-to-br from-[#6366F1]/10 to-[#22C55E]/10 border-[#22C55E]/40 hover:border-[#22C55E]/70'
+                      : 'bg-white/5 border-white/10 hover:border-[#6366F1]/50'
+                  } ${index % 2 === 0 ? '' : 'lg:ml-auto'}`}>
                     <div className="flex items-center gap-3 mb-3" style={{ justifyContent: index % 2 === 0 ? 'flex-end' : 'flex-start' }}>
                       <div className={`p-3 rounded-lg bg-gradient-to-br ${milestone.color}`}>
                         <milestone.icon className="w-6 h-6 text-white" />
@@ -99,6 +104,12 @@ const Journey = () => {
                       <span className="text-[#6366F1] font-semibold text-sm">
                         {milestone.year}
                       </span>
+                      {milestone.current && (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#22C55E] text-[10px] font-semibold uppercase tracking-wider">
+                          <span className="w-1.5 h-1.5 bg-[#22C55E] rounded-full animate-pulse" />
+                          Currently
+                        </span>
+                      )}
                     </div>
                     <h3 className="text-xl font-bold text-[#E5E7EB] mb-2">
                       {milestone.title}

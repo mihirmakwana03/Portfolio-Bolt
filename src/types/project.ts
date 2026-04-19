@@ -7,6 +7,8 @@ export interface ProjectCaseStudy {
   github: string;
   demo: string;
   category: string;
+  featured?: boolean;
+  comingSoon?: boolean;
   problem: string;
   solution: string;
   architecture: string;

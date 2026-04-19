@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Code2, Rocket, Heart, Target } from 'lucide-react';
+import { ScanFace, Brain, Rocket, LineChart } from 'lucide-react';
 import ProfilePhoto from './ProfilePhoto';
 
 const About = () => {
@@ -10,24 +10,24 @@ const About = () => {
 
   const highlights = [
     {
-      icon: Code2,
-      title: 'Clean Code',
-      description: 'Writing maintainable and scalable solutions',
+      icon: ScanFace,
+      title: 'Computer Vision',
+      description: 'Face recognition, CNNs, transfer learning with PyTorch and OpenCV.',
+    },
+    {
+      icon: Brain,
+      title: 'Deep Learning',
+      description: 'Training pipelines in PyTorch and TensorFlow/Keras, from MLPs to ResNet50.',
     },
     {
       icon: Rocket,
-      title: 'Fast Learner',
-      description: 'Constantly exploring new technologies',
+      title: 'Full-Stack Deployment',
+      description: 'MERN stack and Laravel — turning trained models into shipped products.',
     },
     {
-      icon: Heart,
-      title: 'Passionate',
-      description: 'Love building products that matter',
-    },
-    {
-      icon: Target,
-      title: 'Goal-Oriented',
-      description: 'Focused on delivering results',
+      icon: LineChart,
+      title: 'Research Rigour',
+      description: 'Ablation studies, hyperparameter tuning, benchmarking across architectures.',
     },
   ];
 
@@ -47,7 +47,7 @@ const About = () => {
             About Me
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-[#E5E7EB] mt-4 mb-6">
-            Crafting Digital Experiences
+            Building Intelligent Systems
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#6366F1] to-[#22C55E] mx-auto rounded-full" />
         </motion.div>
@@ -71,31 +71,21 @@ const About = () => {
             className="space-y-6"
           >
             <h3 className="text-3xl font-bold text-[#E5E7EB]">
-              Building the Future, One Line at a Time
+              From Notebooks to Production
             </h3>
             <div className="space-y-4 text-[#9CA3AF] leading-relaxed">
               <p>
-                I completed my Master of Computer Applications (MCA) at ISTAR College, Anand,
-                with a CGPA of 9.27, and I'm now pursuing an MSc in Artificial Intelligence at
-                Kingston University, London. My foundation was built during my BCA at SEMCOM
-                College where I graduated with a CGPA of 8.67.
+                I'm pursuing an MSc in Artificial Intelligence at Kingston University, London,
+                focused on computer vision and deep learning. My recent work includes a real-time
+                face recognition system (MTCNN + FaceNet + ArcFace), medical image classification
+                with transfer learning (MobileNetV2, ResNet50) on MedMNIST+ OrganSMNIST, and
+                benchmarking eight classical ML classifiers on imbalanced data.
               </p>
               <p>
-                My journey into software engineering began with curiosity about how things work.
-                That curiosity has evolved into a passion for building real-world web applications
-                using modern technologies across the full stack.
-              </p>
-              <p>
-                I work as a Web Developer & Digital Content Editor at HappinessFactors,
-                building with Laravel and Groove.cm. Previously, I interned at NTech Infoway where
-                I developed a MERN stack CRM system. From crafting elegant frontends with React
-                to architecting robust backends with Node.js and Laravel, I thrive on the complete
-                product development lifecycle.
-              </p>
-              <p>
-                When I'm not coding, you'll find me exploring new technologies, contributing to
-                open source, or diving into topics like AI, history and geopolitics. These diverse
-                interests fuel my creativity and problem-solving approach.
+                Before my MSc I completed an MCA in India (9.27 CGPA) and spent a year shipping
+                production software — a MERN-stack CRM for Growatt InfoSystem at NTech Infoway,
+                and a Laravel website for HappinessFactors. That background means I can take ML
+                models from notebook to deployed product, not just train them.
               </p>
             </div>
           </motion.div>

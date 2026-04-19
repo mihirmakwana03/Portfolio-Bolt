@@ -49,7 +49,7 @@ const Hero = () => {
               <span className="block text-[#E5E7EB]">Mihir</span>
               <span className="block text-[#E5E7EB]">Makwana</span>
               <span className="block text-3xl sm:text-4xl lg:text-5xl bg-gradient-to-r from-[#6366F1] to-[#22C55E] bg-clip-text text-transparent mt-2">
-                Full Stack Developer
+                AI Engineer · Computer Vision
               </span>
             </motion.h1>
 
@@ -75,9 +75,11 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.25 }}
               className="text-lg text-[#9CA3AF] mb-10 leading-relaxed max-w-xl"
             >
-              MSc AI student at Kingston University, London. MCA graduate from ISTAR
-              College with hands-on experience building production web applications.
-              Specializing in MERN stack, Laravel, and crafting seamless digital experiences.
+              MSc Artificial Intelligence student at Kingston University, London, with
+              hands-on computer vision and deep learning experience. Full-stack background
+              in MERN and Laravel from a year of production work. Currently seeking AI/ML
+              internships in London — with the engineering skills to take models from
+              notebook to deployed product.
             </motion.p>
 
             <motion.div
@@ -108,7 +110,7 @@ const Hero = () => {
                 className="px-7 py-3.5 bg-white/5 backdrop-blur-sm text-[#E5E7EB] rounded-lg font-medium border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex items-center gap-2"
               >
                 <Download size={16} />
-                Resume
+                Download CV
               </a>
             </motion.div>
 

@@ -77,7 +77,7 @@ const Contact = () => {
     {
       icon: Phone,
       label: 'Phone',
-      value: '+44 7901037057',
+      value: '+44 7901 037057',
       link: 'tel:+447901037057',
     },
     {

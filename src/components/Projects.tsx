@@ -59,17 +59,22 @@ const Projects = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-wrap justify-center gap-4 mb-12"
           >
-            {['all', 'fullstack', 'frontend', 'backend'].map((category) => (
+            {[
+              { id: 'all', label: 'All' },
+              { id: 'ai', label: 'AI/ML' },
+              { id: 'cv', label: 'Computer Vision' },
+              { id: 'fullstack', label: 'Full-Stack' },
+            ].map((category) => (
               <button
-                key={category}
-                onClick={() => setFilter(category)}
+                key={category.id}
+                onClick={() => setFilter(category.id)}
                 className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 ${
-                  filter === category
+                  filter === category.id
                     ? 'bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white'
                     : 'bg-white/5 text-[#9CA3AF] hover:bg-white/10 border border-white/10'
                 }`}
               >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
+                {category.label}
               </button>
             ))}
           </motion.div>
@@ -111,7 +116,7 @@ const Projects = () => {
                     ))}
                   </div>
 
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 flex-wrap">
                     <button
                       onClick={() => openModal(project)}
                       className="flex items-center gap-2 text-[#9CA3AF] hover:text-[#6366F1] transition-colors"
@@ -119,16 +124,23 @@ const Projects = () => {
                       <Info size={18} />
                       <span className="text-sm">Case Study</span>
                     </button>
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
-                    >
-                      <Github size={18} />
-                      <span className="text-sm">Code</span>
-                    </a>
-                    {project.demo !== '#' && (
+                    {project.comingSoon || project.github === '#' ? (
+                      <span className="flex items-center gap-2 text-[#6B7280] text-sm">
+                        <Github size={18} />
+                        <span>Code · Coming soon</span>
+                      </span>
+                    ) : (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
+                      >
+                        <Github size={18} />
+                        <span className="text-sm">Code</span>
+                      </a>
+                    )}
+                    {project.demo && project.demo !== '#' && (
                       <a
                         href={project.demo}
                         target="_blank"
@@ -136,7 +148,7 @@ const Projects = () => {
                         className="flex items-center gap-2 text-[#9CA3AF] hover:text-[#E5E7EB] transition-colors"
                       >
                         <ExternalLink size={18} />
-                        <span className="text-sm">Demo</span>
+                        <span className="text-sm">Live</span>
                       </a>
                     )}
                   </div>

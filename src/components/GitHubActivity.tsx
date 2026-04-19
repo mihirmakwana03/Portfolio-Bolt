@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { Github, Star, GitFork, Code2, Activity } from 'lucide-react';
+import { Github, GitFork, Code2, Activity, Star } from 'lucide-react';
 
 interface Repository {
   id: number;
@@ -87,7 +87,7 @@ const GitHubActivity = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid sm:grid-cols-3 gap-6 mb-12"
+          className="grid sm:grid-cols-2 gap-6 mb-12"
         >
           <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-center">
             <Activity className="w-8 h-8 text-[#6366F1] mx-auto mb-3" />
@@ -95,12 +95,7 @@ const GitHubActivity = () => {
             <div className="text-[#9CA3AF] text-sm">Public Repositories</div>
           </div>
           <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-center">
-            <Star className="w-8 h-8 text-[#22C55E] mx-auto mb-3" />
-            <div className="text-3xl font-bold text-[#E5E7EB] mb-1">{stats.stars}</div>
-            <div className="text-[#9CA3AF] text-sm">Total Stars</div>
-          </div>
-          <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-center">
-            <GitFork className="w-8 h-8 text-[#6366F1] mx-auto mb-3" />
+            <GitFork className="w-8 h-8 text-[#22C55E] mx-auto mb-3" />
             <div className="text-3xl font-bold text-[#E5E7EB] mb-1">{stats.forks}</div>
             <div className="text-[#9CA3AF] text-sm">Total Forks</div>
           </div>
