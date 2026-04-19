@@ -85,7 +85,7 @@ const About = () => {
                 Before my MSc I completed an MCA in India (9.27 CGPA) and spent a year shipping
                 production software — a MERN-stack CRM for Growatt InfoSystem at NTech Infoway,
                 and a Laravel website for HappinessFactors. That background means I can take ML
-                models from notebook to deployed product, not just train them.
+                models from notebook to deployed product, end to end.
               </p>
             </div>
           </motion.div>

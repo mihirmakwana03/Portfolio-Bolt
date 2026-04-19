@@ -116,10 +116,10 @@ export const projectsData: ProjectCaseStudy[] = [
     },
   },
   {
-    title: 'Growatt CRM — Solar InfoSystem Dashboard',
-    tagline: 'MERN Stack CRM for Solar Services',
+    title: 'Growatt CRM — InfoSystem Dashboard',
+    tagline: 'MERN Stack CRM Dashboard',
     description:
-      'React.js frontend for a MERN-stack CRM tracking solar-system clients and service tickets. REST APIs with Node.js/Express, MongoDB schemas, role-based views for admin and field-engineer users. Built during NTech Infoway internship.',
+      'React.js frontend for a MERN-stack CRM tracking clients and service tickets for Growatt InfoSystem. REST APIs with Node.js/Express, MongoDB schemas, role-based views for admin and field-engineer users. Built during NTech Infoway internship.',
     image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800',
     tags: ['Full-Stack'],
     github: 'https://github.com/mihirmakwana03/growatt-frontend',
@@ -127,24 +127,24 @@ export const projectsData: ProjectCaseStudy[] = [
     category: 'fullstack',
     featured: true,
     problem:
-      'Growatt InfoSystem needed a central CRM to track solar-system installations, client service histories, and field engineer workloads — previously managed across spreadsheets and paper.',
+      'Growatt InfoSystem needed a central CRM to track clients, service histories, and field engineer workloads — previously managed across spreadsheets and paper.',
     solution:
-      'Built a MERN-stack CRM with role-based views: admins manage clients, installations, and engineers; field engineers see only their assigned tickets with a mobile-friendly layout. Used REST APIs for all data operations and MongoDB for flexible client/ticket schemas.',
+      'Built a MERN-stack CRM with role-based views: admins manage clients, records, and engineers; field engineers see only their assigned tickets with a mobile-friendly layout. Used REST APIs for all data operations and MongoDB for flexible client/ticket schemas.',
     architecture:
       'React SPA (Vercel) → REST API (Node.js + Express) → MongoDB. JWT auth with role claims, protected routes on both client and server, and a shared validation layer between API and UI.',
     keyFeatures: [
       'Role-based dashboards for admin and field engineers',
-      'Client and installation record management',
+      'Client and service-record management',
       'Service ticket lifecycle with status transitions',
       'Mobile-friendly UI for on-site engineer use',
     ],
     challenges: [
-      'Designing MongoDB schemas flexible enough for varied installation types',
+      'Designing MongoDB schemas flexible enough for varied record types',
       'Keeping the field-engineer view usable on low-end Android devices',
       'Enforcing role-based access consistently across API and UI',
     ],
     outcome:
-      'Delivered a production CRM deployed for NTech Infoway\'s client. Replaced spreadsheet-based workflows and gave the company a single source of truth for solar-system clients.',
+      'Delivered a production CRM for NTech Infoway\'s client. Replaced spreadsheet-based workflows and gave Growatt InfoSystem a single source of truth for its clients and service operations.',
     techStack: {
       frontend: ['React', 'React Router', 'Axios'],
       backend: ['Node.js', 'Express.js', 'JWT'],

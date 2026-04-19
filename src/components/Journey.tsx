@@ -33,7 +33,7 @@ const Journey = () => {
       title: 'Full-Stack Development Intern',
       institution: 'NTech Infoway',
       description:
-        'Built a MERN-stack CRM for Growatt InfoSystem — tracking solar-system clients and service tickets with role-based views for admin and field engineers.',
+        'Built a MERN-stack CRM for Growatt InfoSystem — tracking clients and service tickets with role-based views for admin and field engineers.',
       color: 'from-[#EC4899] to-[#22C55E]',
     },
     {
