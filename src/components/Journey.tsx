@@ -57,7 +57,7 @@ const Journey = () => {
   ];
 
   return (
-    <section id="journey" className="py-32 relative overflow-hidden">
+    <section id="journey" className="py-20 sm:py-28 lg:py-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-[#0B0B0F] via-[#0B0B0F]/50 to-[#0B0B0F]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,12 +66,12 @@ const Journey = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
           <span className="text-[#6366F1] font-medium text-sm tracking-wider uppercase">
             My Journey
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-[#E5E7EB] mt-4 mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E5E7EB] mt-4 mb-6">
             The Road So Far
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#6366F1] to-[#22C55E] mx-auto rounded-full" />
@@ -80,7 +80,7 @@ const Journey = () => {
         <div className="relative">
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-[#6366F1] via-[#8B5CF6] to-[#22C55E] hidden lg:block" />
 
-          <div className="space-y-12">
+          <div className="space-y-8 sm:space-y-12">
             {milestones.map((milestone, index) => (
               <motion.div
                 key={milestone.title}
@@ -91,13 +91,13 @@ const Journey = () => {
                   index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
                 }`}
               >
-                <div className="flex-1 lg:text-right" style={{ textAlign: index % 2 === 0 ? 'right' : 'left' }}>
-                  <div className={`inline-block p-6 rounded-xl backdrop-blur-sm border transition-all duration-300 hover:shadow-lg hover:shadow-[#6366F1]/20 ${
+                <div className={`flex-1 w-full text-left ${index % 2 === 0 ? 'lg:text-right' : 'lg:text-left'}`}>
+                  <div className={`block lg:inline-block w-full p-5 sm:p-6 rounded-xl backdrop-blur-sm border transition-all duration-300 hover:shadow-lg hover:shadow-[#6366F1]/20 ${
                     milestone.current
                       ? 'bg-gradient-to-br from-[#6366F1]/10 to-[#22C55E]/10 border-[#22C55E]/40 hover:border-[#22C55E]/70'
                       : 'bg-white/5 border-white/10 hover:border-[#6366F1]/50'
                   } ${index % 2 === 0 ? '' : 'lg:ml-auto'}`}>
-                    <div className="flex items-center gap-3 mb-3" style={{ justifyContent: index % 2 === 0 ? 'flex-end' : 'flex-start' }}>
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 justify-start lg:justify-start">
                       <div className={`p-3 rounded-lg bg-gradient-to-br ${milestone.color}`}>
                         <milestone.icon className="w-6 h-6 text-white" />
                       </div>
@@ -111,7 +111,7 @@ const Journey = () => {
                         </span>
                       )}
                     </div>
-                    <h3 className="text-xl font-bold text-[#E5E7EB] mb-2">
+                    <h3 className="text-lg sm:text-xl font-bold text-[#E5E7EB] mb-2">
                       {milestone.title}
                     </h3>
                     <p className="text-[#9CA3AF] text-sm mb-3 font-medium">

@@ -13,7 +13,7 @@ const ProfilePhoto = ({ size = 'md', animate = true }: ProfilePhotoProps) => {
   const sizeMap = {
     sm: { container: 'w-32 h-32', text: 'text-4xl', ring1: 'inset-[-8px]', ring2: 'inset-[-16px]', ring3: 'inset-[-24px]' },
     md: { container: 'w-64 h-64', text: 'text-6xl', ring1: 'inset-[-10px]', ring2: 'inset-[-20px]', ring3: 'inset-[-30px]' },
-    lg: { container: 'w-80 h-80', text: 'text-8xl', ring1: 'inset-[-12px]', ring2: 'inset-[-24px]', ring3: 'inset-[-36px]' },
+    lg: { container: 'w-56 h-56 sm:w-72 sm:h-72 lg:w-80 lg:h-80', text: 'text-8xl', ring1: 'inset-[-12px]', ring2: 'inset-[-24px]', ring3: 'inset-[-36px]' },
   };
 
   const s = sizeMap[size];

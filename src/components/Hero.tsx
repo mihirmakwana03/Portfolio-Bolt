@@ -25,8 +25,8 @@ const Hero = () => {
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#22C55E]/15 rounded-full filter blur-[128px]" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-28 lg:py-32">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
           <div className="order-2 lg:order-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -44,11 +44,11 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-4 leading-tight"
+              className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-4 leading-tight"
             >
               <span className="block text-[#E5E7EB]">Mihir</span>
               <span className="block text-[#E5E7EB]">Makwana</span>
-              <span className="block text-3xl sm:text-4xl lg:text-5xl bg-gradient-to-r from-[#6366F1] to-[#22C55E] bg-clip-text text-transparent mt-2">
+              <span className="block text-2xl sm:text-4xl lg:text-5xl bg-gradient-to-r from-[#6366F1] to-[#22C55E] bg-clip-text text-transparent mt-2">
                 AI Engineer · Computer Vision
               </span>
             </motion.h1>
@@ -63,8 +63,8 @@ const Hero = () => {
                 <MapPin size={14} className="text-[#6366F1]" />
                 London, UK
               </span>
-              <span className="flex items-center gap-1.5">
-                <Mail size={14} className="text-[#22C55E]" />
+              <span className="flex items-center gap-1.5 break-all">
+                <Mail size={14} className="text-[#22C55E] shrink-0" />
                 mihirpmakwana786@gmail.com
               </span>
             </motion.div>
@@ -73,7 +73,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.25 }}
-              className="text-lg text-[#9CA3AF] mb-10 leading-relaxed max-w-xl"
+              className="text-base sm:text-lg text-[#9CA3AF] mb-8 sm:mb-10 leading-relaxed max-w-xl"
             >
               MSc Artificial Intelligence student at Kingston University, London, with
               hands-on computer vision and deep learning experience. Full-stack background
@@ -86,11 +86,11 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.35 }}
-              className="flex flex-wrap gap-3 mb-10"
+              className="flex flex-wrap gap-3 mb-8 sm:mb-10"
             >
               <button
                 onClick={() => scrollToSection('projects')}
-                className="group px-7 py-3.5 bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white rounded-lg font-medium hover:shadow-xl hover:shadow-[#6366F1]/30 transition-all duration-300 flex items-center gap-2"
+                className="group px-5 sm:px-7 py-3 sm:py-3.5 bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white rounded-lg font-medium hover:shadow-xl hover:shadow-[#6366F1]/30 transition-all duration-300 flex items-center gap-2 text-sm sm:text-base"
               >
                 View Projects
                 <ArrowRight
@@ -100,14 +100,14 @@ const Hero = () => {
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="px-7 py-3.5 bg-white/5 backdrop-blur-sm text-[#E5E7EB] rounded-lg font-medium border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                className="px-5 sm:px-7 py-3 sm:py-3.5 bg-white/5 backdrop-blur-sm text-[#E5E7EB] rounded-lg font-medium border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 text-sm sm:text-base"
               >
                 Contact Me
               </button>
               <a
                 href="/Mihir_Makwana_CV.pdf"
                 download="Mihir_Makwana_CV.pdf"
-                className="px-7 py-3.5 bg-white/5 backdrop-blur-sm text-[#E5E7EB] rounded-lg font-medium border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex items-center gap-2"
+                className="px-5 sm:px-7 py-3 sm:py-3.5 bg-white/5 backdrop-blur-sm text-[#E5E7EB] rounded-lg font-medium border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex items-center gap-2 text-sm sm:text-base"
               >
                 <Download size={16} />
                 Download CV
@@ -154,7 +154,7 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
-                className="absolute -bottom-4 -left-8 px-4 py-2.5 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
+                className="absolute -bottom-4 -left-2 sm:-left-8 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
               >
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-[#22C55E] rounded-full animate-pulse" />
@@ -166,7 +166,7 @@ const Hero = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0 }}
-                className="absolute -top-2 -right-8 px-4 py-2.5 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
+                className="absolute -top-2 -right-2 sm:-right-8 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
               >
                 <div className="text-center">
                   <div className="text-[#22C55E] text-lg font-bold leading-none">9.27</div>
@@ -178,7 +178,7 @@ const Hero = () => {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2 }}
-                className="absolute top-1/2 -translate-y-1/2 -right-14 px-3 py-2 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
+                className="hidden sm:block absolute top-1/2 -translate-y-1/2 -right-14 px-3 py-2 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
               >
                 <div className="text-center">
                   <div className="text-[#6366F1] text-lg font-bold leading-none">2+</div>

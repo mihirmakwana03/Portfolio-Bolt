@@ -87,17 +87,17 @@ const GitHubActivity = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid sm:grid-cols-2 gap-6 mb-12"
+          className="grid grid-cols-2 gap-3 sm:gap-6 mb-10 sm:mb-12"
         >
-          <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-center">
-            <Activity className="w-8 h-8 text-[#6366F1] mx-auto mb-3" />
-            <div className="text-3xl font-bold text-[#E5E7EB] mb-1">{stats.repos}</div>
-            <div className="text-[#9CA3AF] text-sm">Public Repositories</div>
+          <div className="p-4 sm:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-center">
+            <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-[#6366F1] mx-auto mb-2 sm:mb-3" />
+            <div className="text-2xl sm:text-3xl font-bold text-[#E5E7EB] mb-1">{stats.repos}</div>
+            <div className="text-[#9CA3AF] text-xs sm:text-sm">Public Repositories</div>
           </div>
-          <div className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-center">
-            <GitFork className="w-8 h-8 text-[#22C55E] mx-auto mb-3" />
-            <div className="text-3xl font-bold text-[#E5E7EB] mb-1">{stats.forks}</div>
-            <div className="text-[#9CA3AF] text-sm">Total Forks</div>
+          <div className="p-4 sm:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-center">
+            <GitFork className="w-6 h-6 sm:w-8 sm:h-8 text-[#22C55E] mx-auto mb-2 sm:mb-3" />
+            <div className="text-2xl sm:text-3xl font-bold text-[#E5E7EB] mb-1">{stats.forks}</div>
+            <div className="text-[#9CA3AF] text-xs sm:text-sm">Total Forks</div>
           </div>
         </motion.div>
 
@@ -114,7 +114,7 @@ const GitHubActivity = () => {
           {loading ? (
             <div className="text-center text-[#9CA3AF] py-12">Loading repositories...</div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {repos.slice(0, 6).map((repo, index) => (
                 <motion.a
                   key={repo.id}

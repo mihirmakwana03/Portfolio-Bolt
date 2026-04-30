@@ -23,7 +23,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
             className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
           />
           <div className="fixed inset-0 z-50 overflow-y-auto">
-            <div className="min-h-screen px-4 py-8 flex items-center justify-center">
+            <div className="min-h-screen px-2 sm:px-4 py-4 sm:py-8 flex items-center justify-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -38,22 +38,22 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                   <X size={24} />
                 </button>
 
-                <div className="relative h-64 md:h-80 overflow-hidden rounded-t-2xl">
+                <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden rounded-t-2xl">
                   <img
                     src={project.image}
                     alt={project.title}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0F] via-[#0B0B0F]/50 to-transparent" />
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <h2 className="text-3xl md:text-4xl font-bold text-[#E5E7EB] mb-2">
+                  <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
+                    <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-[#E5E7EB] mb-2">
                       {project.title}
                     </h2>
                     <p className="text-[#6366F1] font-medium">{project.tagline}</p>
                   </div>
                 </div>
 
-                <div className="p-6 md:p-8 max-h-[60vh] overflow-y-auto">
+                <div className="p-4 sm:p-6 md:p-8 max-h-[60vh] overflow-y-auto">
                   <div className="flex flex-wrap gap-3 mb-6">
                     {project.tags.map((tag) => (
                       <span
@@ -65,12 +65,12 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                     ))}
                   </div>
 
-                  <div className="flex gap-4 mb-8">
+                  <div className="flex flex-wrap gap-3 sm:gap-4 mb-6 sm:mb-8">
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[#E5E7EB] transition-colors"
+                      className="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[#E5E7EB] transition-colors text-sm sm:text-base"
                     >
                       <Github size={18} />
                       View Code
@@ -80,7 +80,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                         href={project.demo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white rounded-lg hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all"
+                        className="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white rounded-lg hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all text-sm sm:text-base"
                       >
                         <ExternalLink size={18} />
                         Live Demo

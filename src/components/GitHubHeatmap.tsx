@@ -157,19 +157,19 @@ const GitHubHeatmap = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:p-8"
+          className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8"
         >
-          <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6 sm:mb-8">
             {statCards.map((card) => (
               <div
                 key={card.label}
-                className="text-center p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-all"
+                className="text-center p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-all"
               >
-                <card.icon className={`w-5 h-5 ${card.color} mx-auto mb-2`} />
-                <div className={`text-2xl md:text-3xl font-bold ${card.color} mb-1`}>
+                <card.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${card.color} mx-auto mb-1.5 sm:mb-2`} />
+                <div className={`text-lg sm:text-2xl md:text-3xl font-bold ${card.color} mb-1`}>
                   {loading ? '—' : card.value}
                 </div>
-                <div className="text-xs text-[#9CA3AF]">{card.label}</div>
+                <div className="text-[10px] sm:text-xs text-[#9CA3AF]">{card.label}</div>
               </div>
             ))}
           </div>

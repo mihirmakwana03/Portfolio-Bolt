@@ -28,7 +28,7 @@ const Projects = () => {
 
   return (
     <>
-      <section id="projects" className="py-32 relative overflow-hidden">
+      <section id="projects" className="py-20 sm:py-28 lg:py-32 relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#22C55E]/10 rounded-full filter blur-[128px]" />
         </div>
@@ -39,12 +39,12 @@ const Projects = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
             <span className="text-[#6366F1] font-medium text-sm tracking-wider uppercase">
               Portfolio
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#E5E7EB] mt-4 mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E5E7EB] mt-4 mb-6">
               Featured Projects
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-[#6366F1] to-[#22C55E] mx-auto rounded-full" />
@@ -57,7 +57,7 @@ const Projects = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-4 mb-12"
+            className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10 sm:mb-12"
           >
             {[
               { id: 'all', label: 'All' },
@@ -68,7 +68,7 @@ const Projects = () => {
               <button
                 key={category.id}
                 onClick={() => setFilter(category.id)}
-                className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 ${
+                className={`px-4 sm:px-6 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-300 ${
                   filter === category.id
                     ? 'bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white'
                     : 'bg-white/5 text-[#9CA3AF] hover:bg-white/10 border border-white/10'
@@ -79,7 +79,7 @@ const Projects = () => {
             ))}
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.title}

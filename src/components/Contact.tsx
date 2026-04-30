@@ -104,7 +104,7 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-32 relative overflow-hidden">
+    <section id="contact" className="py-20 sm:py-28 lg:py-32 relative overflow-hidden">
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#6366F1]/10 rounded-full filter blur-[128px]" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#22C55E]/10 rounded-full filter blur-[128px]" />
@@ -116,12 +116,12 @@ const Contact = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
           <span className="text-[#6366F1] font-medium text-sm tracking-wider uppercase">
             Get In Touch
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-[#E5E7EB] mt-4 mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E5E7EB] mt-4 mb-6">
             Let's Work Together
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#6366F1] to-[#22C55E] mx-auto rounded-full" />
@@ -130,7 +130,7 @@ const Contact = () => {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -138,7 +138,7 @@ const Contact = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-bold text-[#E5E7EB] mb-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-[#E5E7EB] mb-4 sm:mb-6">
                 Contact Information
               </h3>
               <div className="space-y-4">
@@ -148,22 +148,22 @@ const Contact = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                    className="flex items-start gap-4 p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#6366F1]/50 transition-all duration-300"
+                    className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#6366F1]/50 transition-all duration-300"
                   >
-                    <div className="p-3 rounded-lg bg-gradient-to-br from-[#6366F1] to-[#22C55E]">
+                    <div className="p-2.5 sm:p-3 rounded-lg bg-gradient-to-br from-[#6366F1] to-[#22C55E] shrink-0">
                       <info.icon className="w-5 h-5 text-white" />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <p className="text-[#9CA3AF] text-sm mb-1">{info.label}</p>
                       {info.link ? (
                         <a
                           href={info.link}
-                          className="text-[#E5E7EB] hover:text-[#6366F1] transition-colors"
+                          className="text-[#E5E7EB] hover:text-[#6366F1] transition-colors break-all text-sm sm:text-base"
                         >
                           {info.value}
                         </a>
                       ) : (
-                        <p className="text-[#E5E7EB]">{info.value}</p>
+                        <p className="text-[#E5E7EB] text-sm sm:text-base">{info.value}</p>
                       )}
                     </div>
                     {info.label === 'Email' && (
@@ -188,7 +188,7 @@ const Contact = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <h3 className="text-2xl font-bold text-[#E5E7EB] mb-6">Connect</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-[#E5E7EB] mb-4 sm:mb-6">Connect</h3>
               <div className="flex gap-4">
                 {socialLinks.map((social) => (
                   <a
@@ -212,7 +212,7 @@ const Contact = () => {
             onSubmit={handleSubmit}
             className="space-y-6"
           >
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label htmlFor="name" className="block text-[#E5E7EB] text-sm font-medium mb-2">
                   Your Name
@@ -292,7 +292,7 @@ const Contact = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-8 py-4 bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white rounded-lg font-medium hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-[#6366F1] to-[#22C55E] text-white rounded-lg font-medium hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
               <Send size={18} className="group-hover:translate-x-1 transition-transform" />
