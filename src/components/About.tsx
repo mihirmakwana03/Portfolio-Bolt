@@ -52,7 +52,7 @@ const About = () => {
           <div className="w-20 h-1 bg-gradient-to-r from-[#6366F1] to-[#22C55E] mx-auto rounded-full" />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-12 sm:mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-12 sm:mb-20">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}

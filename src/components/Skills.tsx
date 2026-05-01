@@ -115,15 +115,17 @@ const Skills = () => {
                   : 'bg-white/5 border-white/10 hover:border-[#6366F1]/50 hover:shadow-lg hover:shadow-[#6366F1]/20'
               }`}
             >
-              <h3 className="text-lg sm:text-xl font-bold text-[#E5E7EB] mb-4 sm:mb-6 flex items-center gap-2 flex-wrap">
-                <span className={`w-2 h-2 rounded-full ${category.highlight ? 'bg-[#22C55E]' : 'bg-[#6366F1]'}`} />
-                {category.category}
+              <div className="flex items-center gap-2 mb-4 sm:mb-6 justify-between flex-wrap">
+                <h3 className="text-lg sm:text-xl font-bold text-[#E5E7EB] flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full ${category.highlight ? 'bg-[#22C55E]' : 'bg-[#6366F1]'}`} />
+                  {category.category}
+                </h3>
                 {category.highlight && (
-                  <span className="ml-auto text-[10px] uppercase tracking-wider text-[#22C55E] font-semibold px-2 py-0.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20">
+                  <span className="text-[10px] uppercase tracking-wider text-[#22C55E] font-semibold px-2 py-0.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 shrink-0">
                     Primary Focus
                   </span>
                 )}
-              </h3>
+              </div>
 
               <div className="flex flex-wrap gap-2">
                 {category.skills.map((skill) => (

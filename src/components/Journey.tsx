@@ -87,7 +87,7 @@ const Journey = () => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                className={`flex flex-col lg:flex-row gap-8 items-center ${
+                className={`flex flex-col gap-6 sm:gap-8 lg:items-center ${
                   index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
                 }`}
               >
@@ -123,8 +123,10 @@ const Journey = () => {
                   </div>
                 </div>
 
-                <div className="hidden lg:flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#6366F1] to-[#22C55E] border-4 border-[#0B0B0F] z-10">
+                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#6366F1] to-[#22C55E] border-4 border-[#0B0B0F] z-10">
                   <div className="w-3 h-3 rounded-full bg-white" />
+                </div>
+                <div className="flex lg:hidden w-4 h-4 rounded-full bg-gradient-to-br from-[#6366F1] to-[#22C55E] flex-shrink-0">
                 </div>
 
                 <div className="flex-1" />
