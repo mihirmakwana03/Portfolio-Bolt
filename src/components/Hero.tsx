@@ -213,7 +213,7 @@ const Hero = () => {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2 }}
-                className="hidden sm:block absolute top-1/2 -translate-y-1/2 -right-14 px-3 py-2 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
+                className="absolute top-1/2 -translate-y-1/2 -right-3 sm:-right-14 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
               >
                 <div className="text-center">
                   <div className="text-[#6366F1] text-lg font-bold leading-none">1+</div>

@@ -120,7 +120,7 @@ export const projectsData: ProjectCaseStudy[] = [
     tagline: 'MERN Stack CRM Dashboard',
     description:
       'React.js frontend for a MERN-stack CRM tracking clients and service tickets for Growatt InfoSystem. REST APIs with Node.js/Express, MongoDB schemas, role-based views for admin and field-engineer users. Built during NTech Infoway internship.',
-    image: '../public/Project-Growatt.png',
+    image: '/Project-Growatt.png',
     tags: ['Full-Stack'],
     github: 'https://github.com/mihirmakwana03/growatt-frontend',
     demo: 'https://growatt-frontend.vercel.app/',
@@ -157,7 +157,7 @@ export const projectsData: ProjectCaseStudy[] = [
     tagline: 'Laravel Company Website',
     description:
       'Laravel company website with Blade templates and Tailwind styling, integrated with Groove.cm for headless content management. Delivered as freelance work.',
-    image: '../public/Project-HappinessFactors.png',
+    image: '/Project-HappinessFactors.png',
     tags: ['Full-Stack'],
     github: 'https://github.com/mihirmakwana03/HF-Testing',
     demo: 'https://happinessfactors.com',
