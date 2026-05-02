@@ -8,6 +8,45 @@ diff a/src/components/AIChatbot.tsx b/src/components/AIChatbot.tsx	(rejected hun
    }
  
    if (/\b(skill|tech|stack|language|framework|tool|know|use|expertise)\b/.test(q)) {
+@@ -72,13 +72,13 @@ const getAnswer = (question: string): string => {
+ 
+   if (/\b(project|build|made|portfolio|work|app)\b/.test(q)) {
+     const list = PORTFOLIO_KNOWLEDGE.projects
+-      .map((p) => `• ${p.name} (${p.tech}) — ${p.desc}`)
++      .map((p) => `• ${p.name} (${p.tech}): ${p.desc}`)
+       .join('\n');
+     return `Mihir's notable projects:\n\n${list}\n\nScroll to the Projects section or check his GitHub for more details!`;
+   }
+ 
+   if (/\b(experience|job|work|intern|company|employ)\b/.test(q)) {
+-    return `Mihir's work experience:\n\n• Web Developer & Digital Content Editor at HappinessFactors (Jan 2025 - Present) — Laravel, Groove.cm\n\n• Full-Stack Development Intern at NTech Infoway (Dec 2024 - Apr 2025) — Built a MERN stack CRM system`;
++    return `Mihir's work experience:\n\n• Web Developer & Digital Content Editor at HappinessFactors (Jan 2025 - Present): Laravel, Groove.cm\n\n• Full-Stack Development Intern at NTech Infoway (Dec 2024 - Apr 2025): built a MERN stack CRM system`;
+   }
+ 
+   if (/\b(contact|email|reach|hire|message)\b/.test(q)) {
+@@ -86,11 +86,11 @@ const getAnswer = (question: string): string => {
+   }
+ 
+   if (/\b(github|open source|repo|code)\b/.test(q)) {
+-    return `Mihir's GitHub is at github.com/mihirmakwana03 — he actively contributes to projects and maintains open source repositories. You can view the GitHub contribution graph on this portfolio page!`;
++    return `Mihir's GitHub is at github.com/mihirmakwana03. He actively contributes to projects and maintains open source repositories. You can view the GitHub contribution graph on this portfolio page!`;
+   }
+ 
+   if (/\b(linkedin|social|network)\b/.test(q)) {
+-    return `Mihir's LinkedIn profile: linkedin.com/in/mihir-makwana-a098a21b7 — feel free to connect with him there!`;
++    return `Mihir's LinkedIn profile: linkedin.com/in/mihir-makwana-a098a21b7. Feel free to connect with him there!`;
+   }
+ 
+   if (/\b(available|hire|freelance|opportunity|job|open to)\b/.test(q)) {
+@@ -106,7 +106,7 @@ const getAnswer = (question: string): string => {
+   }
+ 
+   if (/\b(resume|cv|download)\b/.test(q)) {
+-    return `You can download Mihir's resume/CV directly from this portfolio — look for the "Resume" button in the Hero section!`;
++    return `You can download Mihir's resume/CV directly from this portfolio. Look for the "Resume" button in the Hero section!`;
+   }
+ 
+   if (/\b(portfolio|website|built with|site|made with)\b/.test(q)) {
 @@ -283,11 +283,19 @@ const AIChatbot = () => {
        </AnimatePresence>
  
