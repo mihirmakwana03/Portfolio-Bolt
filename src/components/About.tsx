@@ -22,7 +22,7 @@ const About = () => {
     {
       icon: Rocket,
       title: 'Full-Stack Deployment',
-      description: 'MERN stack and Laravel — turning trained models into shipped products.',
+      description: 'MERN stack and Laravel for turning trained models into shipped products.',
     },
     {
       icon: LineChart,
@@ -83,7 +83,7 @@ const About = () => {
               </p>
               <p>
                 Before my MSc I completed an MCA in India (9.27 CGPA) and spent a year shipping
-                production software — a MERN-stack CRM for Growatt InfoSystem at NTech Infoway,
+                production software: a MERN-stack CRM for Growatt InfoSystem at NTech Infoway,
                 and a Laravel website for HappinessFactors. That background means I can take ML
                 models from notebook to deployed product, end to end.
               </p>

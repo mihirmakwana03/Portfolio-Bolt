@@ -40,7 +40,7 @@ export const projectsData: ProjectCaseStudy[] = [
     },
   },
   {
-    title: 'Medical Image Classification — OrganSMNIST',
+    title: 'Medical Image Classification: OrganSMNIST',
     tagline: 'Transfer Learning on CT Scans',
     description:
       'Multi-class classification of abdominal CT organ images at 224×224. Benchmarked 13 experiments across MLPs, CNNs, and transfer learning (MobileNetV2, ResNet50). ResNet50 gave strongest generalisation. Kingston CI7521 CW2.',
@@ -116,18 +116,18 @@ export const projectsData: ProjectCaseStudy[] = [
     },
   },
   {
-    title: 'Growatt CRM — InfoSystem Dashboard',
+    title: 'Growatt CRM: InfoSystem Dashboard',
     tagline: 'MERN Stack CRM Dashboard',
     description:
       'React.js frontend for a MERN-stack CRM tracking clients and service tickets for Growatt InfoSystem. REST APIs with Node.js/Express, MongoDB schemas, role-based views for admin and field-engineer users. Built during NTech Infoway internship.',
-    image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '../public/Project-Growatt.png',
     tags: ['Full-Stack'],
     github: 'https://github.com/mihirmakwana03/growatt-frontend',
     demo: 'https://growatt-frontend.vercel.app/',
     category: 'fullstack',
     featured: true,
     problem:
-      'Growatt InfoSystem needed a central CRM to track clients, service histories, and field engineer workloads — previously managed across spreadsheets and paper.',
+      'Growatt InfoSystem needed a central CRM to track clients, service histories, and field engineer workloads, previously managed across spreadsheets and paper.',
     solution:
       'Built a MERN-stack CRM with role-based views: admins manage clients, records, and engineers; field engineers see only their assigned tickets with a mobile-friendly layout. Used REST APIs for all data operations and MongoDB for flexible client/ticket schemas.',
     architecture:
@@ -157,10 +157,10 @@ export const projectsData: ProjectCaseStudy[] = [
     tagline: 'Laravel Company Website',
     description:
       'Laravel company website with Blade templates and Tailwind styling, integrated with Groove.cm for headless content management. Delivered as freelance work.',
-    image: 'https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '../public/Project-HappinessFactors.png',
     tags: ['Full-Stack'],
     github: 'https://github.com/mihirmakwana03/HF-Testing',
-    demo: 'https://happinessfactors.laravel.cloud/',
+    demo: 'https://happinessfactors.com',
     category: 'fullstack',
     featured: true,
     problem:

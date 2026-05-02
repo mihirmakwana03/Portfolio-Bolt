@@ -1,0 +1,236 @@
+diff --git a/index.html b/index.html
+index 3c404e0..3fe87fd 100644
+--- a/index.html
++++ b/index.html
+@@ -4,7 +4,7 @@
+     <meta charset="UTF-8" />
+     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+-    <title>Mihir Makwana — AI Engineer · Computer Vision · MSc AI @ Kingston</title>
++    <title>Mihir Makwana | AI Engineer · Computer Vision · MSc AI @ Kingston</title>
+     <meta name="description" content="MSc Artificial Intelligence student at Kingston University, London. Computer vision and deep learning engineer seeking AI/ML internships. Portfolio, projects, and contact." />
+     <meta name="keywords" content="Mihir Makwana, AI Engineer, Computer Vision, Deep Learning, Machine Learning, PyTorch, TensorFlow, FaceNet, MSc AI, Kingston University, London, AI Internship" />
+     <meta name="author" content="Mihir Makwana" />
+@@ -13,14 +13,14 @@
+ 
+     <meta property="og:type" content="website" />
+     <meta property="og:url" content="https://mihir-makwana.co.uk/" />
+-    <meta property="og:title" content="Mihir Makwana — AI Engineer · Computer Vision · MSc AI @ Kingston" />
++    <meta property="og:title" content="Mihir Makwana | AI Engineer · Computer Vision · MSc AI @ Kingston" />
+     <meta property="og:description" content="MSc Artificial Intelligence student at Kingston University, London. Computer vision and deep learning engineer seeking AI/ML internships." />
+     <meta property="og:image" content="https://bolt.new/static/og_default.png" />
+     <meta property="og:site_name" content="Mihir Makwana Portfolio" />
+ 
+     <meta name="twitter:card" content="summary_large_image" />
+     <meta name="twitter:url" content="https://mihir-makwana.co.uk/" />
+-    <meta name="twitter:title" content="Mihir Makwana — AI Engineer · Computer Vision · MSc AI @ Kingston" />
++    <meta name="twitter:title" content="Mihir Makwana | AI Engineer · Computer Vision · MSc AI @ Kingston" />
+     <meta name="twitter:description" content="MSc Artificial Intelligence student at Kingston University, London. Computer vision and deep learning engineer seeking AI/ML internships." />
+     <meta name="twitter:image" content="https://bolt.new/static/og_default.png" />
+ 
+diff --git a/src/components/AIChatbot.tsx b/src/components/AIChatbot.tsx
+index 908af75..9c66978 100644
+--- a/src/components/AIChatbot.tsx
++++ b/src/components/AIChatbot.tsx
+@@ -59,7 +59,7 @@ const getAnswer = (question: string): string => {
+   }
+ 
+   if (/\b(education|study|degree|university|college|msc|mca|bca|cgpa|gpa|academic)\b/.test(q)) {
+-    return `Mihir's education:\n• MSc Artificial Intelligence — Kingston University, London (Sep 2025 - Present)\n• MCA — ISTAR College, Anand (2023-2025, CGPA: 9.27)\n• BCA — SEMCOM College, Anand (2020-2023, CGPA: 8.67)`;
++    return `Mihir's education:\n• MSc Artificial Intelligence, Kingston University, London (Sep 2025 - Present)\n• MCA, ISTAR College, Anand (2023-2025, CGPA: 9.27)\n• BCA, SEMCOM College, Anand (2020-2023, CGPA: 8.67)`;
+   }
+ 
+   if (/\b(skill|tech|stack|language|framework|tool|know|use|expertise)\b/.test(q)) {
+@@ -72,13 +72,13 @@ const getAnswer = (question: string): string => {
+ 
+   if (/\b(project|build|made|portfolio|work|app)\b/.test(q)) {
+     const list = PORTFOLIO_KNOWLEDGE.projects
+-      .map((p) => `• ${p.name} (${p.tech}) — ${p.desc}`)
++      .map((p) => `• ${p.name} (${p.tech}): ${p.desc}`)
+       .join('\n');
+     return `Mihir's notable projects:\n\n${list}\n\nScroll to the Projects section or check his GitHub for more details!`;
+   }
+ 
+   if (/\b(experience|job|work|intern|company|employ)\b/.test(q)) {
+-    return `Mihir's work experience:\n\n• Web Developer & Digital Content Editor at HappinessFactors (Jan 2025 - Present) — Laravel, Groove.cm\n\n• Full-Stack Development Intern at NTech Infoway (Dec 2024 - Apr 2025) — Built a MERN stack CRM system`;
++    return `Mihir's work experience:\n\n• Web Developer & Digital Content Editor at HappinessFactors (Jan 2025 - Present): Laravel, Groove.cm\n\n• Full-Stack Development Intern at NTech Infoway (Dec 2024 - Apr 2025): built a MERN stack CRM system`;
+   }
+ 
+   if (/\b(contact|email|reach|hire|message)\b/.test(q)) {
+@@ -86,11 +86,11 @@ const getAnswer = (question: string): string => {
+   }
+ 
+   if (/\b(github|open source|repo|code)\b/.test(q)) {
+-    return `Mihir's GitHub is at github.com/mihirmakwana03 — he actively contributes to projects and maintains open source repositories. You can view the GitHub contribution graph on this portfolio page!`;
++    return `Mihir's GitHub is at github.com/mihirmakwana03. He actively contributes to projects and maintains open source repositories. You can view the GitHub contribution graph on this portfolio page!`;
+   }
+ 
+   if (/\b(linkedin|social|network)\b/.test(q)) {
+-    return `Mihir's LinkedIn profile: linkedin.com/in/mihir-makwana-a098a21b7 — feel free to connect with him there!`;
++    return `Mihir's LinkedIn profile: linkedin.com/in/mihir-makwana-a098a21b7. Feel free to connect with him there!`;
+   }
+ 
+   if (/\b(available|hire|freelance|opportunity|job|open to)\b/.test(q)) {
+@@ -106,7 +106,7 @@ const getAnswer = (question: string): string => {
+   }
+ 
+   if (/\b(resume|cv|download)\b/.test(q)) {
+-    return `You can download Mihir's resume/CV directly from this portfolio — look for the "Resume" button in the Hero section!`;
++    return `You can download Mihir's resume/CV directly from this portfolio. Look for the "Resume" button in the Hero section!`;
+   }
+ 
+   if (/\b(portfolio|website|built with|site|made with)\b/.test(q)) {
+@@ -283,11 +283,19 @@ const AIChatbot = () => {
+       </AnimatePresence>
+ 
+       <motion.button
+-        onClick={() => { setIsOpen(true); setIsMinimized(false); }}
++        onClick={() => {
++          if (isOpen && !isMinimized) {
++            setIsOpen(false);
++          } else {
++            setIsOpen(true);
++            setIsMinimized(false);
++          }
++        }}
+         whileHover={{ scale: 1.05 }}
+         whileTap={{ scale: 0.95 }}
+         className="fixed bottom-6 right-4 sm:right-6 z-50 w-14 h-14 bg-gradient-to-br from-[#6366F1] to-[#22C55E] rounded-2xl shadow-xl shadow-[#6366F1]/30 flex items-center justify-center"
+-        title="Chat with AI Assistant"
++        aria-label={isOpen && !isMinimized ? 'Close chat' : 'Open chat'}
++        title={isOpen && !isMinimized ? 'Close chat' : 'Chat with AI Assistant'}
+       >
+         <AnimatePresence mode="wait">
+           {isOpen && !isMinimized ? (
+diff --git a/src/components/About.tsx b/src/components/About.tsx
+index 0e5ca85..12f55b9 100644
+--- a/src/components/About.tsx
++++ b/src/components/About.tsx
+@@ -22,7 +22,7 @@ const About = () => {
+     {
+       icon: Rocket,
+       title: 'Full-Stack Deployment',
+-      description: 'MERN stack and Laravel — turning trained models into shipped products.',
++      description: 'MERN stack and Laravel for turning trained models into shipped products.',
+     },
+     {
+       icon: LineChart,
+@@ -83,7 +83,7 @@ const About = () => {
+               </p>
+               <p>
+                 Before my MSc I completed an MCA in India (9.27 CGPA) and spent a year shipping
+-                production software — a MERN-stack CRM for Growatt InfoSystem at NTech Infoway,
++                production software: a MERN-stack CRM for Growatt InfoSystem at NTech Infoway,
+                 and a Laravel website for HappinessFactors. That background means I can take ML
+                 models from notebook to deployed product, end to end.
+               </p>
+diff --git a/src/components/GitHubHeatmap.tsx b/src/components/GitHubHeatmap.tsx
+index 10c32e8..9f19978 100644
+--- a/src/components/GitHubHeatmap.tsx
++++ b/src/components/GitHubHeatmap.tsx
+@@ -167,7 +167,7 @@ const GitHubHeatmap = () => {
+               >
+                 <card.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${card.color} mx-auto mb-1.5 sm:mb-2`} />
+                 <div className={`text-lg sm:text-2xl md:text-3xl font-bold ${card.color} mb-1`}>
+-                  {loading ? '—' : card.value}
++                  {loading ? '…' : card.value}
+                 </div>
+                 <div className="text-[10px] sm:text-xs text-[#9CA3AF]">{card.label}</div>
+               </div>
+diff --git a/src/components/Hero.tsx b/src/components/Hero.tsx
+index 2081531..bd47391 100644
+--- a/src/components/Hero.tsx
++++ b/src/components/Hero.tsx
+@@ -63,10 +63,13 @@ const Hero = () => {
+                 <MapPin size={14} className="text-[#6366F1]" />
+                 London, UK
+               </span>
+-              <span className="flex items-center gap-1.5 break-all">
++              <a
++                href="mailto:mihirpmakwana786@gmail.com"
++                className="flex items-center gap-1.5 break-all hover:text-[#E5E7EB] transition-colors"
++              >
+                 <Mail size={14} className="text-[#22C55E] shrink-0" />
+                 mihirpmakwana786@gmail.com
+-              </span>
++              </a>
+             </motion.div>
+ 
+             <motion.p
+@@ -78,7 +81,7 @@ const Hero = () => {
+               MSc Artificial Intelligence student at Kingston University, London, with
+               hands-on computer vision and deep learning experience. Full-stack background
+               in MERN and Laravel from a year of production work. Currently seeking AI/ML
+-              internships in London — with the engineering skills to take models from
++              internships in London, with the engineering skills to take models from
+               notebook to deployed product.
+             </motion.p>
+ 
+@@ -178,11 +181,11 @@ const Hero = () => {
+                 initial={{ opacity: 0, x: -10 }}
+                 animate={{ opacity: 1, x: 0 }}
+                 transition={{ delay: 1.2 }}
+-                className="hidden sm:block absolute top-1/2 -translate-y-1/2 -right-14 px-3 py-2 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
++                className="absolute top-1/2 -translate-y-1/2 -right-3 sm:-right-14 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
+               >
+                 <div className="text-center">
+-                  <div className="text-[#6366F1] text-lg font-bold leading-none">2+</div>
+-                  <div className="text-[#9CA3AF] text-[10px] mt-0.5">Years exp</div>
++                  <div className="text-[#6366F1] text-base sm:text-lg font-bold leading-none">2+</div>
++                  <div className="text-[#9CA3AF] text-[9px] sm:text-[10px] mt-0.5">Years exp</div>
+                 </div>
+               </motion.div>
+             </div>
+diff --git a/src/components/Journey.tsx b/src/components/Journey.tsx
+index 14469b4..7d2f5e7 100644
+--- a/src/components/Journey.tsx
++++ b/src/components/Journey.tsx
+@@ -33,7 +33,7 @@ const Journey = () => {
+       title: 'Full-Stack Development Intern',
+       institution: 'NTech Infoway',
+       description:
+-        'Built a MERN-stack CRM for Growatt InfoSystem — tracking clients and service tickets with role-based views for admin and field engineers.',
++        'Built a MERN-stack CRM for Growatt InfoSystem, tracking clients and service tickets with role-based views for admin and field engineers.',
+       color: 'from-[#EC4899] to-[#22C55E]',
+     },
+     {
+diff --git a/src/data/projectData.ts b/src/data/projectData.ts
+index 03690f5..e481a01 100644
+--- a/src/data/projectData.ts
++++ b/src/data/projectData.ts
+@@ -40,7 +40,7 @@ export const projectsData: ProjectCaseStudy[] = [
+     },
+   },
+   {
+-    title: 'Medical Image Classification — OrganSMNIST',
++    title: 'Medical Image Classification: OrganSMNIST',
+     tagline: 'Transfer Learning on CT Scans',
+     description:
+       'Multi-class classification of abdominal CT organ images at 224×224. Benchmarked 13 experiments across MLPs, CNNs, and transfer learning (MobileNetV2, ResNet50). ResNet50 gave strongest generalisation. Kingston CI7521 CW2.',
+@@ -116,7 +116,7 @@ export const projectsData: ProjectCaseStudy[] = [
+     },
+   },
+   {
+-    title: 'Growatt CRM — InfoSystem Dashboard',
++    title: 'Growatt CRM: InfoSystem Dashboard',
+     tagline: 'MERN Stack CRM Dashboard',
+     description:
+       'React.js frontend for a MERN-stack CRM tracking clients and service tickets for Growatt InfoSystem. REST APIs with Node.js/Express, MongoDB schemas, role-based views for admin and field-engineer users. Built during NTech Infoway internship.',
+@@ -127,7 +127,7 @@ export const projectsData: ProjectCaseStudy[] = [
+     category: 'fullstack',
+     featured: true,
+     problem:
+-      'Growatt InfoSystem needed a central CRM to track clients, service histories, and field engineer workloads — previously managed across spreadsheets and paper.',
++      'Growatt InfoSystem needed a central CRM to track clients, service histories, and field engineer workloads, previously managed across spreadsheets and paper.',
+     solution:
+       'Built a MERN-stack CRM with role-based views: admins manage clients, records, and engineers; field engineers see only their assigned tickets with a mobile-friendly layout. Used REST APIs for all data operations and MongoDB for flexible client/ticket schemas.',
+     architecture:
+@@ -160,7 +160,7 @@ export const projectsData: ProjectCaseStudy[] = [
+     image: 'https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=800',
+     tags: ['Full-Stack'],
+     github: 'https://github.com/mihirmakwana03/HF-Testing',
+-    demo: 'https://happinessfactors.laravel.cloud/',
++    demo: 'https://happinessfactors.com',
+     category: 'fullstack',
+     featured: true,
+     problem:

@@ -95,10 +95,13 @@ const Hero = () => {
                 <MapPin size={14} className="text-[#6366F1]" />
                 London, UK
               </span>
-              <span className="flex items-center gap-1.5 break-all">
+              <a
+                href="mailto:mihirpmakwana786@gmail.com"
+                className="flex items-center gap-1.5 break-all hover:text-[#E5E7EB] transition-colors"
+              >
                 <Mail size={14} className="text-[#22C55E] shrink-0" />
                 mihirpmakwana786@gmail.com
-              </span>
+              </a>
             </motion.div>
 
             <motion.p
@@ -110,7 +113,7 @@ const Hero = () => {
               MSc Artificial Intelligence student at Kingston University, London, with
               hands-on computer vision and deep learning experience. Full-stack background
               in MERN and Laravel from a year of production work. Currently seeking AI/ML
-              internships in London — with the engineering skills to take models from
+              internships in London, with the engineering skills to take models from
               notebook to deployed product.
             </motion.p>
 

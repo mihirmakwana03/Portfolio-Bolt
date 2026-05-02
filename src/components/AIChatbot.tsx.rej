@@ -1,0 +1,32 @@
+diff a/src/components/AIChatbot.tsx b/src/components/AIChatbot.tsx	(rejected hunks)
+@@ -59,7 +59,7 @@ const getAnswer = (question: string): string => {
+   }
+ 
+   if (/\b(education|study|degree|university|college|msc|mca|bca|cgpa|gpa|academic)\b/.test(q)) {
+-    return `Mihir's education:\n• MSc Artificial Intelligence — Kingston University, London (Sep 2025 - Present)\n• MCA — ISTAR College, Anand (2023-2025, CGPA: 9.27)\n• BCA — SEMCOM College, Anand (2020-2023, CGPA: 8.67)`;
++    return `Mihir's education:\n• MSc Artificial Intelligence, Kingston University, London (Sep 2025 - Present)\n• MCA, ISTAR College, Anand (2023-2025, CGPA: 9.27)\n• BCA, SEMCOM College, Anand (2020-2023, CGPA: 8.67)`;
+   }
+ 
+   if (/\b(skill|tech|stack|language|framework|tool|know|use|expertise)\b/.test(q)) {
+@@ -283,11 +283,19 @@ const AIChatbot = () => {
+       </AnimatePresence>
+ 
+       <motion.button
+-        onClick={() => { setIsOpen(true); setIsMinimized(false); }}
++        onClick={() => {
++          if (isOpen && !isMinimized) {
++            setIsOpen(false);
++          } else {
++            setIsOpen(true);
++            setIsMinimized(false);
++          }
++        }}
+         whileHover={{ scale: 1.05 }}
+         whileTap={{ scale: 0.95 }}
+         className="fixed bottom-6 right-4 sm:right-6 z-50 w-14 h-14 bg-gradient-to-br from-[#6366F1] to-[#22C55E] rounded-2xl shadow-xl shadow-[#6366F1]/30 flex items-center justify-center"
+-        title="Chat with AI Assistant"
++        aria-label={isOpen && !isMinimized ? 'Close chat' : 'Open chat'}
++        title={isOpen && !isMinimized ? 'Close chat' : 'Chat with AI Assistant'}
+       >
+         <AnimatePresence mode="wait">
+           {isOpen && !isMinimized ? (
