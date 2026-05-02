@@ -11,7 +11,7 @@ interface Message {
 
 const PORTFOLIO_KNOWLEDGE = {
   name: 'Mihir Makwana',
-  title: 'Full Stack Developer',
+  title: 'AI Engineer · CV',
   location: 'London, UK',
   email: 'mihirpmakwana786@gmail.com',
   github: 'https://github.com/mihirmakwana03',
@@ -26,11 +26,11 @@ const PORTFOLIO_KNOWLEDGE = {
     { role: 'Full-Stack Development Intern', company: 'NTech Infoway', period: 'Dec 2024 - Apr 2025', tech: ['MongoDB', 'Express.js', 'React', 'Node.js'] },
   ],
   skills: {
-    frontend: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion'],
+    frontend: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     backend: ['Node.js', 'Express.js', 'Laravel', 'PHP'],
     database: ['MongoDB', 'PostgreSQL', 'MySQL', 'Supabase'],
-    tools: ['Git', 'Docker', 'AWS', 'Vite', 'REST APIs'],
-    ai: ['Machine Learning', 'Deep Learning', 'Python', 'TensorFlow'],
+    tools: ['Git', 'GitHub', 'VS Code', 'Jupyter', 'Postman', 'Docker (learning)'],
+    ai: ['PyTorch', 'TensorFlow / Keras', 'scikit-learn', 'Python'],
   },
   projects: [
     { name: 'Growatt Infosystems Website', tech: 'MERN Stack', desc: 'Business platform for Growatt solar products' },
@@ -47,11 +47,11 @@ const getAnswer = (question: string): string => {
   const q = question.toLowerCase();
 
   if (/\b(hi|hello|hey|greet)\b/.test(q)) {
-    return `Hello! I'm Mihir's AI assistant. I can answer questions about his skills, experience, projects, education, and more. What would you like to know?`;
+    return `Hello! This is the Quick Q&A for Mihir's portfolio. I can answer questions about his skills, experience, projects, education, and contact details. What would you like to know?`;
   }
 
   if (/\b(name|who are you|who is|introduce)\b/.test(q)) {
-    return `Mihir Makwana is a Full Stack Developer based in London, UK. He's an MSc AI student at Kingston University and an MCA graduate with a CGPA of 9.27. He specialises in MERN stack, Laravel, and modern web technologies.`;
+    return `${PORTFOLIO_KNOWLEDGE.name} is an ${PORTFOLIO_KNOWLEDGE.title} based in ${PORTFOLIO_KNOWLEDGE.location}. He's an MSc AI student at Kingston University and an MCA graduate with a CGPA of 9.27. He specialises in MERN stack, Laravel, and modern web technologies.`;
   }
 
   if (/\b(location|based|where|city|country|london|uk)\b/.test(q)) {
@@ -67,7 +67,7 @@ const getAnswer = (question: string): string => {
   }
 
   if (/\b(react|node|express|laravel|typescript|mongodb|postgresql|tailwind|next)\b/.test(q)) {
-    return `Yes, Mihir is proficient with that technology! He uses React, Node.js, Express, Laravel, TypeScript, MongoDB, PostgreSQL, Tailwind CSS, and Next.js extensively across his projects.`;
+    return `Yes — Mihir is experienced with those technologies. His frontend work uses React, TypeScript, Tailwind CSS and Framer Motion; backend work uses Node.js, Express and Laravel; databases include MongoDB and PostgreSQL.`;
   }
 
   if (/\b(project|build|made|portfolio|work|app)\b/.test(q)) {
@@ -102,7 +102,7 @@ const getAnswer = (question: string): string => {
   }
 
   if (/\b(ai|machine learning|ml|deep learning|artificial intelligence)\b/.test(q)) {
-    return `Mihir is currently pursuing an MSc in Artificial Intelligence at Kingston University, London. His AI/ML skills include Machine Learning, Deep Learning, Python, and TensorFlow. It's a core area of his current focus!`;
+    return `Mihir is currently pursuing an MSc in Artificial Intelligence at Kingston University, London. His AI/ML skills include ${PORTFOLIO_KNOWLEDGE.skills.ai.join(', ')}. It's a core area of his current focus!`;
   }
 
   if (/\b(resume|cv|download)\b/.test(q)) {
@@ -110,7 +110,7 @@ const getAnswer = (question: string): string => {
   }
 
   if (/\b(portfolio|website|built with|site|made with)\b/.test(q)) {
-    return `This portfolio is built with React, TypeScript, Tailwind CSS, Framer Motion, Three.js (for the 3D background), and Supabase. It features live GitHub contribution data and this AI assistant!`;
+    return `This portfolio is built with React, TypeScript, Tailwind CSS, Framer Motion, Three.js (for the 3D background), and Supabase. It features live GitHub contribution data and this Quick Q&A helper.`;
   }
 
   return `I'm not sure about that specific question, but I can help you learn about Mihir's skills, education, work experience, projects, or how to contact him. What would you like to know?`;
@@ -123,12 +123,11 @@ const AIChatbot = () => {
     {
       id: '0',
       role: 'assistant',
-      text: "Hi! I'm Mihir's AI assistant. Ask me anything about his skills, experience, projects, or how to get in touch!",
+      text: "Hi! This is the Quick Q&A for Mihir's portfolio. Ask me anything about his skills, experience, projects, or how to get in touch!",
       timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -144,18 +143,9 @@ const AIChatbot = () => {
     if (!text) return;
 
     const userMsg: Message = { id: Date.now().toString(), role: 'user', text, timestamp: new Date() };
-    setMessages((m) => [...m, userMsg]);
+    const reply = getAnswer(text);
+    setMessages((m) => [...m, userMsg, { id: (Date.now() + 1).toString(), role: 'assistant', text: reply, timestamp: new Date() }]);
     setInput('');
-    setIsTyping(true);
-
-    setTimeout(() => {
-      const reply = getAnswer(text);
-      setMessages((m) => [
-        ...m,
-        { id: (Date.now() + 1).toString(), role: 'assistant', text: reply, timestamp: new Date() },
-      ]);
-      setIsTyping(false);
-    }, 600 + Math.random() * 400);
   };
 
   const suggestions = ['What are your skills?', 'Tell me about your projects', 'How can I contact you?', 'What is your education?'];
@@ -177,7 +167,7 @@ const AIChatbot = () => {
                   <Bot className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-[#E5E7EB]">Portfolio Assistant</div>
+                  <div className="text-sm font-semibold text-[#E5E7EB]">Quick Q&A</div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 bg-[#22C55E] rounded-full animate-pulse" />
                     <span className="text-[10px] text-[#6B7280]">Always online</span>
@@ -227,25 +217,7 @@ const AIChatbot = () => {
                     )}
                   </div>
                 ))}
-                {isTyping && (
-                  <div className="flex gap-2 justify-start">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#6366F1] to-[#22C55E] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Bot className="w-3 h-3 text-white" />
-                    </div>
-                    <div className="bg-white/5 border border-white/10 rounded-xl rounded-bl-sm px-4 py-3">
-                      <div className="flex gap-1 items-center">
-                        {[0, 1, 2].map((i) => (
-                          <motion.div
-                            key={i}
-                            animate={{ y: [0, -4, 0] }}
-                            transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.15 }}
-                            className="w-1.5 h-1.5 bg-[#6B7280] rounded-full"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
+                
                 <div ref={endRef} />
               </div>
 
@@ -302,10 +274,10 @@ const AIChatbot = () => {
         className="fixed bottom-6 right-4 sm:right-6 z-50 w-14 h-14 bg-gradient-to-br from-[#6366F1] to-[#22C55E] rounded-2xl shadow-xl shadow-[#6366F1]/30 flex items-center justify-center"
         aria-label={
           isOpen && !isMinimized
-            ? 'Close portfolio assistant'
+            ? 'Close Quick Q&A'
             : isOpen && isMinimized
-              ? 'Restore portfolio assistant'
-              : 'Open portfolio assistant'
+              ? 'Restore Quick Q&A'
+              : 'Open Quick Q&A'
         }
         aria-expanded={isOpen && !isMinimized}
       >

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="300" viewBox="0 0 800 300">
+  <rect width="100%" height="100%" fill="#0B0B0F" />
+  <text x="20" y="30" fill="#E5E7EB" font-size="16">Macro-F1 by Classifier (example)</text>
+  <g transform="translate(40,50)">
+    <rect x="0" y="0" width="640" height="200" fill="#111118" />
+    <rect x="20" y="20" width="80" height="120" fill="#6366F1" />
+    <rect x="120" y="20" width="80" height="140" fill="#22C55E" />
+    <rect x="220" y="20" width="80" height="100" fill="#F59E0B" />
+    <text x="20" y="160" fill="#9CA3AF">LDA</text>
+    <text x="120" y="160" fill="#9CA3AF">RF</text>
+    <text x="220" y="160" fill="#9CA3AF">SVM</text>
+  </g>
+</svg>
