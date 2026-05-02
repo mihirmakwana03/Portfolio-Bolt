@@ -17,7 +17,7 @@ const PORTFOLIO_KNOWLEDGE = {
   github: 'https://github.com/mihirmakwana03',
   linkedin: 'https://www.linkedin.com/in/mihir-makwana-a098a21b7/',
   education: [
-    { degree: 'MSc Artificial Intelligence', institution: 'Kingston University, London', year: 'Sep 2025 - Present' },
+    { degree: 'MSc Artificial Intelligence', institution: 'Kingston University, London', year: 'Jan 2026 - Present' },
     { degree: 'Master of Computer Applications (MCA)', institution: 'ISTAR College, Anand', year: '2023-2025', cgpa: '9.27' },
     { degree: 'Bachelor of Computer Applications (BCA)', institution: 'SEMCOM College, Anand', year: '2020-2023', cgpa: '8.67' },
   ],
@@ -59,7 +59,7 @@ const getAnswer = (question: string): string => {
   }
 
   if (/\b(education|study|degree|university|college|msc|mca|bca|cgpa|gpa|academic)\b/.test(q)) {
-    return `Mihir's education:\n• MSc Artificial Intelligence — Kingston University, London (Sep 2025 - Present)\n• MCA — ISTAR College, Anand (2023-2025, CGPA: 9.27)\n• BCA — SEMCOM College, Anand (2020-2023, CGPA: 8.67)`;
+    return `Mihir's education:\n• MSc Artificial Intelligence — Kingston University, London (Jan 2026 - Present)\n• MCA — ISTAR College, Anand (2023-2025, CGPA: 9.27)\n• BCA — SEMCOM College, Anand (2020-2023, CGPA: 8.67)`;
   }
 
   if (/\b(skill|tech|stack|language|framework|tool|know|use|expertise)\b/.test(q)) {

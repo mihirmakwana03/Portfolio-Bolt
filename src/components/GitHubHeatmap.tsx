@@ -2,22 +2,8 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { Calendar, GitCommitVertical as GitCommit, Flame, TrendingUp } from 'lucide-react';
-
-interface ContributionDay {
-  date: string;
-  count: number;
-  level: 0 | 1 | 2 | 3 | 4;
-}
-
-const GITHUB_USERNAME = 'mihirmakwana03';
-
-const getLevelFromCount = (count: number): 0 | 1 | 2 | 3 | 4 => {
-  if (count === 0) return 0;
-  if (count <= 2) return 1;
-  if (count <= 5) return 2;
-  if (count <= 9) return 3;
-  return 4;
-};
+import { fetchGitHubContributionsLastYear, GITHUB_USERNAME } from '../lib/githubContributions';
+import type { ContributionDay } from '../lib/githubContributions';
 
 const GitHubHeatmap = () => {
   const ref = useRef(null);
@@ -31,57 +17,30 @@ const GitHubHeatmap = () => {
   });
 
   useEffect(() => {
-    const fetchContributions = async () => {
-      try {
-        const res = await fetch(
-          `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`
-        );
-        if (!res.ok) throw new Error('API error');
-        const json = await res.json();
+    let cancelled = false;
 
-        const days: ContributionDay[] = (json.contributions as { date: string; count: number; level: number }[]).map(
-          (d) => ({
-            date: d.date,
-            count: d.count,
-            level: getLevelFromCount(d.count),
-          })
-        );
-
-        const total = days.reduce((s, d) => s + d.count, 0);
-
-        let currentStreak = 0;
-        let longestStreak = 0;
-        let tempStreak = 0;
-        const today = new Date().toISOString().split('T')[0];
-        const todayIdx = days.findIndex((d) => d.date === today);
-        const checkFrom = todayIdx >= 0 ? todayIdx : days.length - 1;
-
-        for (let i = checkFrom; i >= 0; i--) {
-          if (days[i].count > 0) {
-            tempStreak++;
-            longestStreak = Math.max(longestStreak, tempStreak);
-          } else {
-            if (i === checkFrom) {
-              currentStreak = 0;
-            } else if (currentStreak === 0) {
-              currentStreak = tempStreak > 0 ? tempStreak : 0;
-            }
-            tempStreak = 0;
-          }
-        }
-        if (currentStreak === 0 && tempStreak > 0) currentStreak = tempStreak;
-
-        setContributions(days);
-        setStats({ totalContributions: total, currentStreak, longestStreak });
-      } catch {
+    fetchGitHubContributionsLastYear()
+      .then((data) => {
+        if (cancelled) return;
+        setContributions(data.contributions);
+        setStats({
+          totalContributions: data.totalContributions,
+          currentStreak: data.currentStreak,
+          longestStreak: data.longestStreak,
+        });
+      })
+      .catch(() => {
+        if (cancelled) return;
         setContributions([]);
         setStats({ totalContributions: 0, currentStreak: 0, longestStreak: 0 });
-      } finally {
-        setLoading(false);
-      }
-    };
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
 
-    fetchContributions();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const getLevelColor = (level: number) => {

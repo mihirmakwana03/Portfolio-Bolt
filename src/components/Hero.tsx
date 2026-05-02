@@ -1,7 +1,39 @@
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Download, Github, Linkedin, MapPin, Mail } from 'lucide-react';
 import ProfilePhoto from './ProfilePhoto';
-import HeroCanvas from './HeroCanvas';
+
+const LazyHeroCanvas = lazy(() => import('./HeroCanvas'));
+
+/** Skip Three.js on small screens and when reduced motion is requested — keeps the chunk off the network. */
+const HeroCanvasGate = () => {
+  const [loadCanvas, setLoadCanvas] = useState(false);
+
+  useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mobile = window.matchMedia('(max-width: 767px)');
+
+    const sync = () => {
+      setLoadCanvas(!reduced.matches && !mobile.matches);
+    };
+
+    sync();
+    reduced.addEventListener('change', sync);
+    mobile.addEventListener('change', sync);
+    return () => {
+      reduced.removeEventListener('change', sync);
+      mobile.removeEventListener('change', sync);
+    };
+  }, []);
+
+  if (!loadCanvas) return null;
+
+  return (
+    <Suspense fallback={null}>
+      <LazyHeroCanvas />
+    </Suspense>
+  );
+};
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -18,7 +50,7 @@ const Hero = () => {
     >
       <div className="absolute inset-0 bg-gradient-to-br from-[#6366F1]/10 via-[#0B0B0F] to-[#22C55E]/10" />
 
-      <HeroCanvas />
+      <HeroCanvasGate />
 
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-20 w-72 h-72 bg-[#6366F1]/20 rounded-full filter blur-[128px]" />
@@ -181,7 +213,7 @@ const Hero = () => {
                 className="hidden sm:block absolute top-1/2 -translate-y-1/2 -right-14 px-3 py-2 rounded-xl bg-[#0B0B0F]/90 backdrop-blur-sm border border-white/10 shadow-xl"
               >
                 <div className="text-center">
-                  <div className="text-[#6366F1] text-lg font-bold leading-none">2+</div>
+                  <div className="text-[#6366F1] text-lg font-bold leading-none">1+</div>
                   <div className="text-[#9CA3AF] text-[10px] mt-0.5">Years exp</div>
                 </div>
               </motion.div>

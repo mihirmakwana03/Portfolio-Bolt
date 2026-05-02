@@ -21,7 +21,7 @@ const HeroCanvas = () => {
     const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 100);
     camera.position.set(0, 0, 5);
 
-    const particleCount = 1800;
+    const particleCount = 400;
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
     const sizes = new Float32Array(particleCount);
@@ -95,11 +95,13 @@ const HeroCanvas = () => {
     };
     window.addEventListener('resize', onResize);
 
-    let frameId: number;
+    let rafId = 0;
+    let running = false;
     const clock = new THREE.Clock();
 
     const animate = () => {
-      frameId = requestAnimationFrame(animate);
+      if (!running) return;
+      rafId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
 
       targetX += (mouseX * 0.3 - targetX) * 0.05;
@@ -113,10 +115,31 @@ const HeroCanvas = () => {
       renderer.render(scene, camera);
     };
 
-    animate();
+    const startLoop = () => {
+      if (running) return;
+      running = true;
+      clock.getElapsedTime();
+      animate();
+    };
+
+    const stopLoop = () => {
+      running = false;
+      cancelAnimationFrame(rafId);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const vis = entries[0]?.isIntersecting ?? false;
+        if (vis) startLoop();
+        else stopLoop();
+      },
+      { root: null, threshold: 0, rootMargin: '120px' }
+    );
+    observer.observe(mount);
 
     return () => {
-      cancelAnimationFrame(frameId);
+      stopLoop();
+      observer.disconnect();
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', onResize);
       renderer.dispose();

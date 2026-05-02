@@ -46,11 +46,11 @@ export const projectsData: ProjectCaseStudy[] = [
       'Multi-class classification of abdominal CT organ images at 224×224. Benchmarked 13 experiments across MLPs, CNNs, and transfer learning (MobileNetV2, ResNet50). ResNet50 gave strongest generalisation. Kingston CI7521 CW2.',
     image: 'https://images.pexels.com/photos/4226124/pexels-photo-4226124.jpeg?auto=compress&cs=tinysrgb&w=800',
     tags: ['AI/ML', 'Deep Learning'],
-    github: '#',
-    demo: '#',
+    github: 'https://github.com/mihirmakwana03/CI7521-CW2-notebook-OrganSMNIST',
+    demo: 'https://github.com/mihirmakwana03/CI7521-CW2-notebook-OrganSMNIST',
     category: 'ai',
     featured: true,
-    comingSoon: true,
+    comingSoon: false,
     problem:
       'Medical image classification is notoriously sensitive to architecture and training-regime choices. The task was to identify which model family generalises best on OrganSMNIST (abdominal CT organ images) upsampled to 224×224.',
     solution:
@@ -84,11 +84,11 @@ export const projectsData: ProjectCaseStudy[] = [
       'Benchmarked 8 classical ML classifiers (LDA, QDA, Decision Tree, KNN, Logistic Regression, SVM, Random Forest, Gaussian NB) on a 5-class imbalanced dataset. SMOTE oversampling + quantile transformer + two-stage hyperparameter search. Kingston CI7521 CW1.',
     image: 'https://images.pexels.com/photos/669610/pexels-photo-669610.jpeg?auto=compress&cs=tinysrgb&w=800',
     tags: ['AI/ML'],
-    github: '#',
-    demo: '#',
+    github: 'https://github.com/mihirmakwana03/CI7521-CW1-notebook',
+    demo: 'https://github.com/mihirmakwana03/CI7521-CW1-notebook',
     category: 'ai',
     featured: true,
-    comingSoon: true,
+    comingSoon: false,
     problem:
       'Real-world multi-class datasets are rarely balanced and rarely Gaussian. The task was to establish which classical ML algorithm performs best on a 5-class imbalanced dataset after principled preprocessing.',
     solution:

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Mail, MapPin, Phone, Send, Github, Linkedin, Copy, Check } from 'lucide-react';
+import { Mail, MapPin, Send, Github, Linkedin, Copy, Check } from 'lucide-react';
 
 const Contact = () => {
   const ref = useRef(null);
@@ -12,6 +12,8 @@ const Contact = () => {
     email: '',
     subject: '',
     message: '',
+    /** Honeypot — left empty; server discards filled submissions. */
+    website: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
@@ -43,17 +45,31 @@ const Contact = () => {
         }
       );
 
-      if (!res.ok) throw new Error('Failed to send');
+      const payload = await res.json().catch(() => ({} as { error?: string; message?: string }));
+
+      if (!res.ok) {
+        const msg =
+          typeof payload.error === 'string'
+            ? payload.error
+            : 'Something went wrong. Please try emailing me directly at mihirpmakwana786@gmail.com';
+        throw new Error(msg);
+      }
 
       setSubmitStatus({
         type: 'success',
-        message: "Thank you for your message! I'll get back to you soon.",
+        message:
+          typeof payload.message === 'string'
+            ? payload.message
+            : "Thank you for your message! I'll get back to you soon.",
       });
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch {
+      setFormData({ name: '', email: '', subject: '', message: '', website: '' });
+    } catch (err) {
       setSubmitStatus({
         type: 'error',
-        message: 'Something went wrong. Please try emailing me directly at mihirpmakwana786@gmail.com',
+        message:
+          err instanceof Error
+            ? err.message
+            : 'Something went wrong. Please try emailing me directly at mihirpmakwana786@gmail.com',
       });
     } finally {
       setIsSubmitting(false);
@@ -73,12 +89,6 @@ const Contact = () => {
       label: 'Email',
       value: 'mihirpmakwana786@gmail.com',
       link: 'mailto:mihirpmakwana786@gmail.com',
-    },
-    {
-      icon: Phone,
-      label: 'Phone',
-      value: '+44 7901 037057',
-      link: 'tel:+447901037057',
     },
     {
       icon: MapPin,
@@ -210,8 +220,25 @@ const Contact = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
             onSubmit={handleSubmit}
-            className="space-y-6"
+            className="space-y-6 relative"
           >
+            {/* Honeypot: hidden from users; bots often fill "website" */}
+            <div
+              className="absolute opacity-0 pointer-events-none h-0 w-0 overflow-hidden"
+              aria-hidden
+            >
+              <label htmlFor="website">Website</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                value={formData.website}
+                onChange={handleChange}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
             <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label htmlFor="name" className="block text-[#E5E7EB] text-sm font-medium mb-2">

@@ -7,12 +7,33 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
+/** Honeypot `website` must be omitted or empty — bots often fill it. */
 interface ContactFormData {
   name: string;
   email: string;
   subject: string;
   message: string;
+  website?: string;
 }
+
+const RATE_WINDOW_MS = 60 * 60 * 1000;
+
+/** First client IP from proxies (Supabase / hosting typically sets x-forwarded-for). */
+function getClientIp(req: Request): string {
+  const xff = req.headers.get("x-forwarded-for");
+  if (xff) {
+    const first = xff.split(",")[0]?.trim();
+    if (first) return first;
+  }
+  const realIp = req.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+  return "unknown";
+}
+
+const esc = (s: string) =>
+  s.replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!
+  );
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL") as string;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") as string;
@@ -36,7 +57,20 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const { name, email, subject, message }: ContactFormData = await req.json();
+    const { name, email, subject, message, website }: ContactFormData = await req.json();
+
+    if (typeof website === "string" && website.trim() !== "") {
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: "Thank you for your message! I'll get back to you soon.",
+        }),
+        {
+          status: 200,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
 
     if (!name || !email || !subject || !message) {
       return new Response(
@@ -89,22 +123,57 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    const visitorIp = getClientIp(req);
     const userAgent = req.headers.get("user-agent") || "unknown";
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const checkQuery = await supabase
-      .from("contact_messages")
-      .select("created_at")
-      .eq("email", email)
-      .gte("created_at", new Date(Date.now() - 60 * 60 * 1000).toISOString())
-      .maybeSingle();
+    const since = new Date(Date.now() - RATE_WINDOW_MS).toISOString();
 
-    if (checkQuery.data) {
+    const [emailCheck, ipCheck] = await Promise.all([
+      supabase
+        .from("contact_messages")
+        .select("id")
+        .eq("email", email)
+        .gte("created_at", since)
+        .limit(1),
+      supabase
+        .from("contact_messages")
+        .select("id")
+        .eq("ip_address", visitorIp)
+        .gte("created_at", since)
+        .limit(1),
+    ]);
+
+    if (emailCheck.error) {
+      console.error("Rate limit (email) query error:", emailCheck.error);
+      return new Response(
+        JSON.stringify({ error: "Failed to verify submission. Please try again later." }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+    if (ipCheck.error) {
+      console.error("Rate limit (IP) query error:", ipCheck.error);
+      return new Response(
+        JSON.stringify({ error: "Failed to verify submission. Please try again later." }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    const emailLimited = (emailCheck.data?.length ?? 0) > 0;
+    const ipLimited = (ipCheck.data?.length ?? 0) > 0;
+
+    if (emailLimited || ipLimited) {
       return new Response(
         JSON.stringify({
-          error: "You have already submitted a message recently. Please wait before submitting again.",
+          error:
+            "You have already submitted a message recently from this browser or address. Please wait before trying again.",
         }),
         {
           status: 429,
@@ -113,7 +182,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const { data, error } = await supabase
+    const { data: insertedRows, error } = await supabase
       .from("contact_messages")
       .insert([
         {
@@ -121,16 +190,26 @@ Deno.serve(async (req: Request) => {
           email,
           subject,
           message,
-          ip_address: clientIp,
+          ip_address: visitorIp,
           user_agent: userAgent,
           status: "new",
         },
       ])
-      .select()
-      .maybeSingle();
+      .select();
 
     if (error) {
       console.error("Database error:", error);
+      return new Response(
+        JSON.stringify({ error: "Failed to save message. Please try again later." }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    const data = insertedRows?.[0];
+    if (!data) {
       return new Response(
         JSON.stringify({ error: "Failed to save message. Please try again later." }),
         {
@@ -181,35 +260,35 @@ Deno.serve(async (req: Request) => {
                     <div class="content">
                       <div class="field">
                         <div class="label">From:</div>
-                        <div class="value">${name}</div>
+                        <div class="value">${esc(name)}</div>
                       </div>
 
                       <div class="field">
                         <div class="label">Email:</div>
-                        <div class="value"><a href="mailto:${email}" style="color: #6366F1; text-decoration: none;">${email}</a></div>
+                        <div class="value"><a href="mailto:${esc(email)}" style="color: #6366F1; text-decoration: none;">${esc(email)}</a></div>
                       </div>
 
                       <div class="field">
                         <div class="label">Subject:</div>
-                        <div class="value">${subject}</div>
+                        <div class="value">${esc(subject)}</div>
                       </div>
 
                       <div class="field">
                         <div class="label">Message:</div>
-                        <div class="message-box">${message.replace(/\n/g, '<br>')}</div>
+                        <div class="message-box">${esc(message).replace(/\n/g, "<br>")}</div>
                       </div>
 
                       <div class="metadata">
                         <strong>Submission Details:</strong><br>
-                        Message ID: ${data.id}<br>
+                        Message ID: ${esc(String(data.id))}<br>
                         Submitted: ${new Date(data.created_at).toLocaleString()}<br>
-                        IP Address: ${clientIp}<br>
-                        User Agent: ${userAgent}
+                        IP Address: ${esc(visitorIp)}<br>
+                        User Agent: ${esc(userAgent)}
                       </div>
                     </div>
                     <div class="footer">
                       <p>This message was sent from your portfolio contact form.</p>
-                      <p>Reply directly to <a href="mailto:${email}" style="color: #6366F1;">${email}</a> to respond.</p>
+                      <p>Reply directly to <a href="mailto:${esc(email)}" style="color: #6366F1;">${esc(email)}</a> to respond.</p>
                     </div>
                   </div>
                 </body>
@@ -229,7 +308,7 @@ ${message}
 Submission Details:
 Message ID: ${data.id}
 Submitted: ${new Date(data.created_at).toLocaleString()}
-IP Address: ${clientIp}
+IP Address: ${visitorIp}
 
 Reply to: ${email}
             `,

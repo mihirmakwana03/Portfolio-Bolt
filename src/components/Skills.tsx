@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { fetchGitHubContributionsLastYear } from '../lib/githubContributions';
 
 interface SkillBadge {
   name: string;
@@ -10,6 +11,13 @@ interface SkillBadge {
 const Skills = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [githubYearTotal, setGithubYearTotal] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetchGitHubContributionsLastYear()
+      .then((data) => setGithubYearTotal(data.totalContributions))
+      .catch(() => setGithubYearTotal(null));
+  }, []);
 
   const skillCategories: { category: string; highlight?: boolean; skills: SkillBadge[] }[] = [
     {
@@ -160,7 +168,10 @@ const Skills = () => {
             { label: 'Pinned AI & Web Projects', value: '6' },
             { label: 'Kingston MSc ML Coursework Projects', value: '3' },
             { label: 'MCA CGPA (out of 10)', value: '9.27' },
-            { label: 'GitHub Contributions (past year)', value: '427' },
+            {
+              label: 'GitHub Contributions (past year)',
+              value: githubYearTotal === null ? '—' : String(githubYearTotal),
+            },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
