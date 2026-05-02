@@ -185,16 +185,20 @@ const AIChatbot = () => {
                 </div>
                 <div className="ml-auto flex items-center gap-1">
                   <button
+                    type="button"
                     onClick={() => setIsMinimized(true)}
                     className="p-1.5 text-[#6B7280] hover:text-[#E5E7EB] transition-colors rounded-lg hover:bg-white/5"
+                    aria-label="Minimize chat"
                   >
-                    <Minimize2 className="w-4 h-4" />
+                    <Minimize2 className="w-4 h-4" aria-hidden />
                   </button>
                   <button
+                    type="button"
                     onClick={() => setIsOpen(false)}
                     className="p-1.5 text-[#6B7280] hover:text-[#E5E7EB] transition-colors rounded-lg hover:bg-white/5"
+                    aria-label="Close chat"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-4 h-4" aria-hidden />
                   </button>
                 </div>
               </div>
@@ -270,11 +274,13 @@ const AIChatbot = () => {
                   className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-[#E5E7EB] placeholder-[#4B5563] outline-none focus:border-[#6366F1]/50 transition-colors"
                 />
                 <button
+                  type="button"
                   onClick={send}
                   disabled={!input.trim()}
                   className="w-9 h-9 bg-gradient-to-r from-[#6366F1] to-[#22C55E] rounded-xl flex items-center justify-center disabled:opacity-40 hover:shadow-lg hover:shadow-[#6366F1]/20 transition-all flex-shrink-0"
+                  aria-label="Send message"
                 >
-                  <Send className="w-4 h-4 text-white" />
+                  <Send className="w-4 h-4 text-white" aria-hidden />
                 </button>
               </div>
             </div>
@@ -283,20 +289,34 @@ const AIChatbot = () => {
       </AnimatePresence>
 
       <motion.button
-        onClick={() => { setIsOpen(true); setIsMinimized(false); }}
+        type="button"
+        onClick={() => {
+          if (isOpen && !isMinimized) setIsOpen(false);
+          else {
+            setIsOpen(true);
+            setIsMinimized(false);
+          }
+        }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className="fixed bottom-6 right-4 sm:right-6 z-50 w-14 h-14 bg-gradient-to-br from-[#6366F1] to-[#22C55E] rounded-2xl shadow-xl shadow-[#6366F1]/30 flex items-center justify-center"
-        title="Chat with AI Assistant"
+        aria-label={
+          isOpen && !isMinimized
+            ? 'Close portfolio assistant'
+            : isOpen && isMinimized
+              ? 'Restore portfolio assistant'
+              : 'Open portfolio assistant'
+        }
+        aria-expanded={isOpen && !isMinimized}
       >
         <AnimatePresence mode="wait">
           {isOpen && !isMinimized ? (
             <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
-              <X className="w-6 h-6 text-white" />
+              <X className="w-6 h-6 text-white" aria-hidden />
             </motion.div>
           ) : (
             <motion.div key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
-              <MessageCircle className="w-6 h-6 text-white" />
+              <MessageCircle className="w-6 h-6 text-white" aria-hidden />
             </motion.div>
           )}
         </AnimatePresence>

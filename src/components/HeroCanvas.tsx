@@ -8,6 +8,9 @@ const HeroCanvas = () => {
     const mount = mountRef.current;
     if (!mount) return;
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion || window.innerWidth < 640) return;
+
     const width = mount.clientWidth;
     const height = mount.clientHeight;
 
@@ -97,6 +100,7 @@ const HeroCanvas = () => {
 
     let rafId = 0;
     let running = false;
+    let isIntersecting = false;
     const clock = new THREE.Clock();
 
     const animate = () => {
@@ -116,7 +120,7 @@ const HeroCanvas = () => {
     };
 
     const startLoop = () => {
-      if (running) return;
+      if (running || document.visibilityState !== 'visible') return;
       running = true;
       clock.getElapsedTime();
       animate();
@@ -130,15 +134,26 @@ const HeroCanvas = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         const vis = entries[0]?.isIntersecting ?? false;
-        if (vis) startLoop();
+        isIntersecting = vis;
+        if (vis && document.visibilityState === 'visible') startLoop();
         else stopLoop();
       },
       { root: null, threshold: 0, rootMargin: '120px' }
     );
     observer.observe(mount);
 
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        stopLoop();
+      } else if (document.visibilityState === 'visible' && isIntersecting) {
+        startLoop();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     return () => {
       stopLoop();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       observer.disconnect();
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', onResize);

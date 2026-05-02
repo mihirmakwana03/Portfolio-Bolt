@@ -60,7 +60,7 @@ const About = () => {
             className="relative"
           >
             <div className="flex items-center justify-center py-8">
-              <ProfilePhoto size="md" animate={isInView} />
+              <ProfilePhoto size="md" animate={isInView} loading="lazy" />
             </div>
           </motion.div>
 

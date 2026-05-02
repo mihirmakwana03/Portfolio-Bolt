@@ -5,13 +5,13 @@ import ProfilePhoto from './ProfilePhoto';
 
 const LazyHeroCanvas = lazy(() => import('./HeroCanvas'));
 
-/** Skip Three.js on small screens and when reduced motion is requested — keeps the chunk off the network. */
+/** Skip Three.js below 640px width and when reduced motion is requested — keeps the chunk off the network. */
 const HeroCanvasGate = () => {
   const [loadCanvas, setLoadCanvas] = useState(false);
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const mobile = window.matchMedia('(max-width: 767px)');
+    const mobile = window.matchMedia('(max-width: 639px)');
 
     const sync = () => {
       setLoadCanvas(!reduced.matches && !mobile.matches);
@@ -59,7 +59,7 @@ const Hero = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-28 lg:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
-          <div className="order-2 lg:order-1 lg:order-none">
+          <div className="order-2 lg:order-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -180,7 +180,7 @@ const Hero = () => {
             className="order-1 lg:order-2 flex justify-center lg:justify-end"
           >
             <div className="relative">
-              <ProfilePhoto size="lg" animate={true} />
+              <ProfilePhoto size="lg" animate={true} loading="eager" />
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}

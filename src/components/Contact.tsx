@@ -178,13 +178,15 @@ const Contact = () => {
                     </div>
                     {info.label === 'Email' && (
                       <button
+                        type="button"
                         onClick={handleCopyEmail}
                         className="p-2 rounded-lg hover:bg-white/10 transition-colors"
+                        aria-label={copied ? 'Email copied to clipboard' : 'Copy email address to clipboard'}
                       >
                         {copied ? (
-                          <Check size={18} className="text-[#22C55E]" />
+                          <Check size={18} className="text-[#22C55E]" aria-hidden />
                         ) : (
-                          <Copy size={18} className="text-[#9CA3AF]" />
+                          <Copy size={18} className="text-[#9CA3AF]" aria-hidden />
                         )}
                       </button>
                     )}
@@ -306,6 +308,8 @@ const Contact = () => {
 
             {submitStatus.type && (
               <div
+                role="status"
+                aria-live="polite"
                 className={`p-4 rounded-lg ${
                   submitStatus.type === 'success'
                     ? 'bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]'

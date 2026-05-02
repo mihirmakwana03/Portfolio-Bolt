@@ -1,13 +1,16 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import profileImg from '../assets/IMG_0858.jpeg';
+import profileWebp from '../assets/profile-800.webp';
+import profileJpeg from '../assets/profile-800.jpg';
 
 interface ProfilePhotoProps {
   size?: 'sm' | 'md' | 'lg';
   animate?: boolean;
+  /** Hero/LCP: eager; About / below-fold: lazy */
+  loading?: 'eager' | 'lazy';
 }
 
-const ProfilePhoto = ({ size = 'md', animate = true }: ProfilePhotoProps) => {
+const ProfilePhoto = ({ size = 'md', animate = true, loading = 'lazy' }: ProfilePhotoProps) => {
   const [imageError, setImageError] = useState(false);
 
   const sizeMap = {
@@ -41,13 +44,14 @@ const ProfilePhoto = ({ size = 'md', animate = true }: ProfilePhotoProps) => {
             {orbitDots.slice(0, 3).map((dot, i) => (
               <div
                 key={i}
-                className={`absolute w-2 h-2 ${dot.color} rounded-full shadow-lg`}
-                style={{
-                  top: '50%',
-                  left: '50%',
-                  transform: `rotate(${dot.angle}deg) translateX(calc(50% + ${size === 'lg' ? '168px' : size === 'md' ? '136px' : '80px'})) rotate(-${dot.angle}deg) translate(-50%, -50%)`,
-                }}
-              />
+                className="absolute inset-0 pointer-events-none"
+                style={{ transform: `rotate(${dot.angle}deg)` }}
+              >
+                <div
+                  className={`absolute left-1/2 w-2 h-2 -translate-x-1/2 ${dot.color} rounded-full shadow-lg`}
+                  style={{ top: '10%' }}
+                />
+              </div>
             ))}
           </motion.div>
 
@@ -61,13 +65,14 @@ const ProfilePhoto = ({ size = 'md', animate = true }: ProfilePhotoProps) => {
             {orbitDots.slice(3).map((dot, i) => (
               <div
                 key={i}
-                className={`absolute w-1.5 h-1.5 ${dot.color} rounded-full opacity-60`}
-                style={{
-                  top: '50%',
-                  left: '50%',
-                  transform: `rotate(${dot.angle}deg) translateX(calc(50% + ${size === 'lg' ? '192px' : size === 'md' ? '157px' : '100px'})) rotate(-${dot.angle}deg) translate(-50%, -50%)`,
-                }}
-              />
+                className="absolute inset-0 pointer-events-none"
+                style={{ transform: `rotate(${dot.angle}deg)` }}
+              >
+                <div
+                  className={`absolute left-1/2 w-1.5 h-1.5 -translate-x-1/2 ${dot.color} rounded-full opacity-60`}
+                  style={{ top: '5%' }}
+                />
+              </div>
             ))}
           </motion.div>
         </>
@@ -92,12 +97,17 @@ const ProfilePhoto = ({ size = 'md', animate = true }: ProfilePhotoProps) => {
 
         <div className="absolute inset-[2px] rounded-full overflow-hidden">
           {!imageError ? (
-            <img
-              src={profileImg}
-              alt="Mihir Makwana"
-              className="w-full h-full object-cover object-center"
-              onError={() => setImageError(true)}
-            />
+            <picture>
+              <source srcSet={profileWebp} type="image/webp" />
+              <img
+                src={profileJpeg}
+                alt="Mihir Makwana"
+                className="w-full h-full object-cover object-center"
+                loading={loading}
+                decoding="async"
+                onError={() => setImageError(true)}
+              />
+            </picture>
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-[#1a1a2e] to-[#0B0B0F] flex items-center justify-center">
               <motion.div
