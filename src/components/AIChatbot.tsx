@@ -43,78 +43,51 @@ const PORTFOLIO_KNOWLEDGE = {
   availability: 'Open to opportunities',
 };
 
-const getAnswer = (question: string): string => {
-  const q = question.toLowerCase();
+// Retrieval-based answer flow: load local KB, embed the question in-browser,
+// rank chunks by cosine similarity and call the serverless LLM handler.
+let kb: any = null;
+let embedder: any = null;
 
-  if (/\b(hi|hello|hey|greet)\b/.test(q)) {
-    return `Hello! This is the Quick Q&A for Mihir's portfolio. I can answer questions about his skills, experience, projects, education, and contact details. What would you like to know?`;
+async function ensureLoaded() {
+  if (!kb) {
+    const res = await fetch('/kb.json');
+    kb = await res.json();
   }
-
-  if (/\b(name|who are you|who is|introduce)\b/.test(q)) {
-    return `${PORTFOLIO_KNOWLEDGE.name} is an ${PORTFOLIO_KNOWLEDGE.title} based in ${PORTFOLIO_KNOWLEDGE.location}. He's an MSc AI student at Kingston University and an MCA graduate with a CGPA of 9.27. He specialises in MERN stack, Laravel, and modern web technologies.`;
+  if (!embedder) {
+    // dynamic pipeline import to avoid bundling costs at module load
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const { pipeline } = await import('@xenova/transformers');
+    embedder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
   }
+}
 
-  if (/\b(location|based|where|city|country|london|uk)\b/.test(q)) {
-    return `Mihir is currently based in London, UK where he's pursuing his MSc in Artificial Intelligence at Kingston University.`;
-  }
+function cosine(a: number[], b: number[]) {
+  let s = 0;
+  for (let i = 0; i < a.length; i++) s += a[i] * b[i];
+  return s; // embeddings are normalized
+}
 
-  if (/\b(education|study|degree|university|college|msc|mca|bca|cgpa|gpa|academic)\b/.test(q)) {
-    return `Mihir's education:\n• MSc Artificial Intelligence — Kingston University, London (Jan 2026 - Present)\n• MCA — ISTAR College, Anand (2023-2025, CGPA: 9.27)\n• BCA — SEMCOM College, Anand (2020-2023, CGPA: 8.67)`;
-  }
+async function answerQuestion(question: string): Promise<string> {
+  await ensureLoaded();
+  const q = await embedder(question, { pooling: 'mean', normalize: true });
+  const qVec = Array.from(q.data) as number[];
 
-  if (/\b(skill|tech|stack|language|framework|tool|know|use|expertise)\b/.test(q)) {
-    return `Mihir's tech stack:\n\nFrontend: ${PORTFOLIO_KNOWLEDGE.skills.frontend.join(', ')}\nBackend: ${PORTFOLIO_KNOWLEDGE.skills.backend.join(', ')}\nDatabase: ${PORTFOLIO_KNOWLEDGE.skills.database.join(', ')}\nTools: ${PORTFOLIO_KNOWLEDGE.skills.tools.join(', ')}\nAI/ML: ${PORTFOLIO_KNOWLEDGE.skills.ai.join(', ')}`;
-  }
+  const ranked = kb.chunks
+    .map((c: any) => ({ ...c, score: cosine(qVec, c.embedding) }))
+    .sort((a: any, b: any) => b.score - a.score)
+    .slice(0, 3);
 
-  if (/\b(react|node|express|laravel|typescript|mongodb|postgresql|tailwind|next)\b/.test(q)) {
-    return `Yes — Mihir is experienced with those technologies. His frontend work uses React, TypeScript, Tailwind CSS and Framer Motion; backend work uses Node.js, Express and Laravel; databases include MongoDB and PostgreSQL.`;
-  }
+  const context = ranked.map((c: any) => c.text).join('\n\n---\n\n');
 
-  if (/\b(project|build|made|portfolio|work|app)\b/.test(q)) {
-    const list = PORTFOLIO_KNOWLEDGE.projects
-      .map((p) => `• ${p.name} (${p.tech}): ${p.desc}`)
-      .join('\n');
-    return `Mihir's notable projects:\n\n${list}\n\nScroll to the Projects section or check his GitHub for more details!`;
-  }
-
-  if (/\b(experience|job|work|intern|company|employ)\b/.test(q)) {
-    return `Mihir's work experience:\n\n• Web Developer & Digital Content Editor at HappinessFactors (Jan 2025 - Present): Laravel, Groove.cm\n\n• Full-Stack Development Intern at NTech Infoway (Dec 2024 - Apr 2025): built a MERN stack CRM system`;
-  }
-
-  if (/\b(contact|email|reach|hire|message)\b/.test(q)) {
-    return `You can contact Mihir via:\n• Email: mihirpmakwana786@gmail.com\n• LinkedIn: linkedin.com/in/mihir-makwana-a098a21b7\n• Or use the Contact section on this portfolio!`;
-  }
-
-  if (/\b(github|open source|repo|code)\b/.test(q)) {
-    return `Mihir's GitHub is at github.com/mihirmakwana03. He actively contributes to projects and maintains open source repositories. You can view the GitHub contribution graph on this portfolio page!`;
-  }
-
-  if (/\b(linkedin|social|network)\b/.test(q)) {
-    return `Mihir's LinkedIn profile: linkedin.com/in/mihir-makwana-a098a21b7. Feel free to connect with him there!`;
-  }
-
-  if (/\b(available|hire|freelance|opportunity|job|open to)\b/.test(q)) {
-    return `Mihir is currently open to opportunities! He's available for full-stack development roles, internships, and freelance projects. Reach out via email at mihirpmakwana786@gmail.com.`;
-  }
-
-  if (/\b(interest|hobby|passion|like|enjoy)\b/.test(q)) {
-    return `Outside coding, Mihir is passionate about AI/ML, Web Development, Open Source, History, and Geopolitics. These varied interests fuel his creative problem-solving approach.`;
-  }
-
-  if (/\b(ai|machine learning|ml|deep learning|artificial intelligence)\b/.test(q)) {
-    return `Mihir is currently pursuing an MSc in Artificial Intelligence at Kingston University, London. His AI/ML skills include ${PORTFOLIO_KNOWLEDGE.skills.ai.join(', ')}. It's a core area of his current focus!`;
-  }
-
-  if (/\b(resume|cv|download)\b/.test(q)) {
-    return `You can download Mihir's resume/CV directly from this portfolio. Look for the "Resume" button in the Hero section!`;
-  }
-
-  if (/\b(portfolio|website|built with|site|made with)\b/.test(q)) {
-    return `This portfolio is built with React, TypeScript, Tailwind CSS, Framer Motion, Three.js (for the 3D background), and Supabase. It features live GitHub contribution data and this Quick Q&A helper.`;
-  }
-
-  return `I'm not sure about that specific question, but I can help you learn about Mihir's skills, education, work experience, projects, or how to contact him. What would you like to know?`;
-};
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question, context }),
+  });
+  const data = await res.json();
+  return data.answer ?? "I don't have that information about Mihir — try asking him directly via the contact form.";
+}
 
 const AIChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -138,14 +111,20 @@ const AIChatbot = () => {
     }
   }, [messages, isOpen, isMinimized]);
 
-  const send = () => {
+  const send = async () => {
     const text = input.trim();
     if (!text) return;
 
     const userMsg: Message = { id: Date.now().toString(), role: 'user', text, timestamp: new Date() };
-    const reply = getAnswer(text);
-    setMessages((m) => [...m, userMsg, { id: (Date.now() + 1).toString(), role: 'assistant', text: reply, timestamp: new Date() }]);
+    setMessages((m) => [...m, userMsg]);
     setInput('');
+
+    try {
+      const reply = await answerQuestion(text);
+      setMessages((m) => [...m, { id: (Date.now() + 1).toString(), role: 'assistant', text: reply, timestamp: new Date() }]);
+    } catch (err) {
+      setMessages((m) => [...m, { id: (Date.now() + 1).toString(), role: 'assistant', text: "Sorry — I couldn't fetch an answer right now.", timestamp: new Date() }]);
+    }
   };
 
   const suggestions = ['What are your skills?', 'Tell me about your projects', 'How can I contact you?', 'What is your education?'];
