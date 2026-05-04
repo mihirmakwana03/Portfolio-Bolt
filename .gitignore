@@ -24,3 +24,5 @@ dist-ssr
 *.rej
 *.gz
 *.zip
+.vercel
+.env*.local

@@ -1,6 +1,9 @@
-import { pipeline } from '@xenova/transformers';
+import { pipeline, env } from '@xenova/transformers';
 import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
+
+// Ensure consistent behavior: allow caching but prefer remote models
+env.allowLocalModels = false;
 
 const KNOWLEDGE_DIR = './knowledge';
 const OUTPUT = './public/kb.json';
