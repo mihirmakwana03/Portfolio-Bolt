@@ -2,7 +2,7 @@ export const config = { runtime: 'edge' };
 
 /**
  * Anonymous question logging endpoint
- * Stores SHA-256 hashes of unique questions (no IP, no PII)
+ * Stores SHA-256 hashes of questions as individual rows (no IP, no PII)
  * This creates a flywheel: track what users ask → improve KB after 1 month
  */
 export default async function handler(req: Request) {
@@ -18,7 +18,7 @@ export default async function handler(req: Request) {
   try {
     // Log to Supabase (if env vars set)
     const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_ANON_KEY;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
       // Logging not configured, silently succeed
@@ -34,10 +34,10 @@ export default async function handler(req: Request) {
         'Content-Type': 'application/json',
         apikey: supabaseKey,
         Authorization: `Bearer ${supabaseKey}`,
+        Prefer: 'return=minimal',
       },
       body: JSON.stringify({
         question_hash: questionHash,
-        created_at: new Date().toISOString(),
       }),
     });
 

@@ -20,6 +20,7 @@ interface Message {
   text: string;
   timestamp: Date;
   sources?: SourceInfo[];
+  isStreaming?: boolean;
 }
 
 // Retrieval-based answer flow: load local KB, embed the question in-browser,
@@ -126,6 +127,7 @@ async function answerQuestion(
   const qVec = Array.from(q.data as ArrayLike<number>);
 
   const chatHistory = history
+    .filter((msg) => msg.id !== "0")
     .slice(-4) // last 2 turns
     .map((msg) => ({
       role: msg.role === "user" ? "user" : "assistant",
@@ -267,15 +269,9 @@ const AIChatbot = () => {
       timestamp: new Date(),
     };
     const assistantMsgId = (Date.now() + 1).toString();
-    const assistantMsg: Message = {
-      id: assistantMsgId,
-      role: "assistant",
-      text: "",
-      timestamp: new Date(),
-    };
 
-    // Add user message and create empty assistant message
-    setMessages((m) => [...m, userMsg, assistantMsg]);
+    // Add user message only; create the assistant bubble when the first token arrives
+    setMessages((m) => [...m, userMsg]);
     setInput("");
     setDynamicSuggestions([]);
 
@@ -288,17 +284,33 @@ const AIChatbot = () => {
         (token: string) => {
           setLoadingStage(null);
           setMessages((m) =>
-            m.map((msg) =>
-              msg.id === assistantMsgId ? { ...msg, text: msg.text + token } : msg,
-            ),
+            m.some((msg) => msg.id === assistantMsgId)
+              ? m.map((msg) =>
+                  msg.id === assistantMsgId
+                    ? { ...msg, text: msg.text + token, isStreaming: true }
+                    : msg,
+                )
+              : [
+                  ...m,
+                  {
+                    id: assistantMsgId,
+                    role: "assistant",
+                    text: token,
+                    timestamp: new Date(),
+                    isStreaming: true,
+                    ...(sources.length > 0 ? { sources } : {}),
+                  },
+                ],
           );
         },
         (srcs: SourceInfo[]) => {
           sources = srcs;
           setMessages((m) =>
-            m.map((msg) =>
-              msg.id === assistantMsgId ? { ...msg, sources: srcs } : msg,
-            ),
+            m.some((msg) => msg.id === assistantMsgId)
+              ? m.map((msg) =>
+                  msg.id === assistantMsgId ? { ...msg, sources: srcs } : msg,
+                )
+              : m,
           );
         },
         (stage: "searching" | "generating") => {
@@ -312,18 +324,36 @@ const AIChatbot = () => {
         const suggestions = topicSuggestions[topicKey] || [];
         setDynamicSuggestions(suggestions.slice(0, 3));
       }
+
+      setMessages((m) =>
+        m.map((msg) =>
+          msg.id === assistantMsgId ? { ...msg, isStreaming: false } : msg,
+        ),
+      );
     } catch (err) {
       console.error("Chat error:", err);
       setLoadingStage(null);
       setMessages((m) =>
-        m.map((msg) =>
-          msg.id === assistantMsgId
-            ? {
-                ...msg,
+        m.some((msg) => msg.id === assistantMsgId)
+          ? m.map((msg) =>
+              msg.id === assistantMsgId
+                ? {
+                    ...msg,
+                    text: `Sorry, I couldn't fetch an answer right now. ${err instanceof Error ? err.message : String(err)}`,
+                    isStreaming: false,
+                  }
+                : msg,
+            )
+          : [
+              ...m,
+              {
+                id: assistantMsgId,
+                role: "assistant",
                 text: `Sorry, I couldn't fetch an answer right now. ${err instanceof Error ? err.message : String(err)}`,
-              }
-            : msg,
-        ),
+                timestamp: new Date(),
+                isStreaming: false,
+              },
+            ],
       );
     }
   };
@@ -356,14 +386,18 @@ const AIChatbot = () => {
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 bg-[#22C55E] rounded-full animate-pulse" />
                     <span className="text-[10px] text-[#6B7280]">
-                      Always online
+                      Llama 3.3 70B · RAG
                     </span>
                   </div>
                 </div>
                 <div className="ml-auto flex items-center gap-1">
                   <button
                     type="button"
-                    onClick={reset}
+                    onClick={() => {
+                      if (window.confirm("Clear conversation?")) {
+                        reset();
+                      }
+                    }}
                     className="p-1.5 text-[#6B7280] hover:text-[#E5E7EB] transition-colors rounded-lg hover:bg-white/5"
                     aria-label="Reset conversation"
                     title="Clear chat history"
@@ -407,7 +441,7 @@ const AIChatbot = () => {
                             : "bg-white/5 border border-white/10 text-[#D1D5DB] rounded-bl-sm prose prose-invert prose-sm"
                         }`}
                       >
-                        {msg.role === "assistant" ? (
+                        {msg.role === "assistant" && !msg.isStreaming ? (
                           <ReactMarkdown>{msg.text}</ReactMarkdown>
                         ) : (
                           msg.text

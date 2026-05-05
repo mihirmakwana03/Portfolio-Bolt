@@ -3,18 +3,37 @@ import { Redis } from '@upstash/redis';
 
 export const config = { runtime: 'edge' }; // edge runtime for streaming
 
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(10, '1 m'), // 10 requests per IP per minute
-});
+let ratelimit: Ratelimit | null = null;
+
+function getRatelimit() {
+  if (ratelimit) return ratelimit;
+
+  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+    return null;
+  }
+
+  ratelimit = new Ratelimit({
+    redis: Redis.fromEnv(),
+    limiter: Ratelimit.slidingWindow(10, '1 m'), // 10 requests per IP per minute
+  });
+
+  return ratelimit;
+}
 
 export default async function handler(req: Request) {
   if (req.method !== 'POST') return new Response('Method not allowed', { status: 405 });
 
   // Rate-limit by IP: 10 requests per minute
-  const ip = req.headers.get('x-forwarded-for') ?? 'anon';
-  const { success } = await ratelimit.limit(ip);
-  if (!success) return new Response('Rate limit exceeded', { status: 429 });
+  const rl = getRatelimit();
+  if (rl) {
+    const ip = req.headers.get('x-forwarded-for') ?? 'anon';
+    try {
+      const { success } = await rl.limit(ip);
+      if (!success) return new Response('Rate limit exceeded', { status: 429 });
+    } catch (err) {
+      console.warn('Rate limit check failed, allowing through:', err);
+    }
+  }
 
   const { question, context, history = [] } = await req.json();
   if (!question || !context) return new Response('Missing fields', { status: 400 });
@@ -48,8 +67,18 @@ ${context}`;
     }),
   });
 
+  if (!upstream.ok) {
+    const errorText = await upstream.text();
+    console.error('Groq error:', upstream.status, errorText);
+    return new Response('AI service unavailable', { status: 502 });
+  }
+
   // Re-stream Groq's SSE response straight to the browser
   return new Response(upstream.body, {
-    headers: { 'Content-Type': 'text/event-stream' },
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache, no-transform',
+      Connection: 'keep-alive',
+    },
   });
 }
