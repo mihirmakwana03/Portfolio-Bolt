@@ -1,5 +1,3 @@
-import { Heart } from 'lucide-react';
-
 const Footer = () => {
   return (
     <footer className="relative border-t border-white/5 py-8">
@@ -10,9 +8,7 @@ const Footer = () => {
           </div>
 
           <div className="flex items-center gap-2 text-[#9CA3AF] text-sm">
-            <span>Built with</span>
-            <Heart size={16} className="text-[#6366F1] fill-[#6366F1] animate-pulse" />
-            <span>and React</span>
+            <span>Powered by Llama 3.3 70B · RAG over Mihir's CV</span>
           </div>
         </div>
       </div>

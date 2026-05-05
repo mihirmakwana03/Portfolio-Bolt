@@ -12,6 +12,10 @@ function normalizeTitle(title) {
   return title.replace(/^#{1,6}\s+/, '').trim();
 }
 
+function getBodyText(chunkText) {
+  return chunkText.split('\n\n').slice(1).join('\n\n').trim();
+}
+
 // Split a markdown file into chunks at ## headings
 function chunkMarkdown(text, source) {
   const sections = text.split(/^## /m).filter(Boolean);
@@ -27,7 +31,10 @@ function chunkMarkdown(text, source) {
       text: body ? `${title}\n\n${body}` : title,
     };
     })
-    .filter((chunk) => chunk.text.trim().length > 0);
+    .filter((chunk) => {
+      const body = getBodyText(chunk.text);
+      return body.length >= 50;
+    });
 }
 
 console.log('Loading embedding model (one-time download ~25MB)...');
